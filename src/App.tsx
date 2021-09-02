@@ -27,6 +27,8 @@ import { ReactComponent as qrcode } from "./Icons/qr-code.svg";
 import { ReactComponent as rightQuote } from "./Icons/right-quotation.svg";
 import { useReactToPrint } from 'react-to-print';
 import { isMobile } from "react-device-detect";
+import { Config } from "./Models/Config";
+import { Job } from "./Models/Job";
 const meImage = require("./Assets/me.jpg");
 const wwfImage = require("./Assets/wwf.png");
 const hirImage = require("./Assets/hir.jpg");
@@ -187,6 +189,12 @@ function App() {
     content: () => pdfComponentRef.current as any,
   });
 
+  // data
+  const rawJsonConfig = `{"name":"A","title":"B","subtitle":"C","summary":"D","summaryIsQuote":true,"phone":"E","email":"F","linkedInUsername":"G","web":"H","githubUsername":"I","jobs":[{"title":"Software Engineer II","team":"Words With Friends","company":"Zynga","start":"2018","jobBullets":[{"bulletChar":"•","text":"AA"},{"bulletChar":"•","text":"AB"},{"bulletChar":"•","text":"AC"},{"bulletChar":"•","text":"AD"}],"jobList":{"name":"Tech Stacks","delimiter":",","listItems":["JavaScript","TypeScript","Node.js","cocods-2d-js","React","React Native"]}}]}`;
+  const config = new Config().deserialize(JSON.parse(rawJsonConfig));
+  
+  // data
+
   const boundaryRef = useRef<HTMLElement>(null);
   const domRect = boundaryRef?.current?.getBoundingClientRect();
   const yOffset = Math.floor(domRect?.top || 0);
@@ -280,10 +288,11 @@ function App() {
       borderRadius: 0,
       backgroundColor: "transparent",
       opacity: validatedRender ? 1 : 0,
+      height: 1056,
     },
     sidebarContainer: {
       width: "33%",
-      maxHeight: 1056,
+      height: "100%"
     },
     sidebarRoot: {
       marginLeft: 5,
@@ -291,7 +300,7 @@ function App() {
       display: "flex",
       flexDirection: "column",
       justifyContent: "space-between",
-      maxHeight: 1056,
+      height: '100%',
     },
     nameHeader: {
       textAlign: "center",
@@ -391,10 +400,8 @@ function App() {
       width: "67%",
       display: 'flex',
       flexDirection: 'column',
-      justifyContent: 'center',
-      maxHeight: 1056,
-      paddingTop: 5,
-      paddingBottom: 5,
+      justifyContent: 'top',
+      height: 1056,
     },
     bodyCard: {
       width: "96%",
@@ -574,6 +581,49 @@ function App() {
     config:  colorTransitionConfig
   });
 
+  // create job cards
+  const jobCards: any[] = [];
+  let jobCardInd = 0;
+  let jobBulletInd = 0;
+  for (let job of config.jobs) {
+    const jobBullets: any[] = [];
+    for ( let jobBullet of job.jobBullets) {
+      jobBullets.push(<Typography
+        className={classes.bodyCardContentDense}
+        key={"job_bullet_" + jobCardInd + "_" + jobBulletInd++}
+      >
+        {jobBullet.bulletChar}{" "}{jobBullet.text}
+      </Typography>)
+    }
+    jobCards.push(
+      <Card key={"job_card_" + jobCardInd++} elevation={contentCardElevation} className={classes.bodyCard} variant={cardVariant as any}>
+                <CardMedia
+                  className={classes.bodyCardMediaWWF}
+                  image={wwfImage}
+                />
+                <animated.div
+                style={{
+                  ...bodyTextColorAnimation as any
+                }}
+                >
+                  <Typography className={classes.bodyCardTitle}>
+                    {job.jobSummaryHeader}
+                  </Typography>
+
+                  {jobBullets}
+
+                  <Typography
+                    className={classes.bodyCardTechStack}
+                  >
+                    <em>
+                      Tech Stack: JavaScript, TypeScript, Node.js, cocos2d-js, React, React Native
+                    </em>
+                  </Typography>
+                </animated.div>
+              </Card>
+    )
+  }
+
   return (
     <ThemeProvider theme={theme}>
       <animated.div
@@ -729,7 +779,7 @@ function App() {
                   ...sidebarTextColorAnimation as any
                   }}>
                   <Typography className={classes.nameHeader}>
-                    Charles Sweet
+                    {config.name}
                   </Typography>
                   <Avatar
                     src={meImage}
@@ -739,15 +789,15 @@ function App() {
                   />
 
                   <Typography className={classes.titleHeader}>
-                    Software Engineer
+                    {config.title}
                   </Typography>
-                  <Typography className={classes.subtitleHeader}>
-                  <em>
-                    Specializing in Game, Mobile, Web,{" "}
-                    Front End, Content Pipeline, and{" "}
-                    Tooling Development
-                  </em>
+                  {
+                    config.subtitle && <Typography className={classes.subtitleHeader}>
+                    <em>
+                      {config.subtitle}
+                    </em>
                   </Typography>
+                  }
 
                   <SvgIcon
                     className={classes.leftQuote}
@@ -756,15 +806,7 @@ function App() {
                   />
                   
                   <Typography className={classes.quote}>
-                  I don't just write software; I strive to create seamless, performant and
-                  memorable applications for every type of end user.
-                  From implementing the next big game feature on a
-                  large team, to prototyping novel ideas in cutting edge
-                  tech stacks, to creating tools that make my teammate's
-                  jobs easier. I cherish each new opportunity to make an
-                  impact and leave any project I touch in better condition
-                  than I found it. I am excited to help bring my team's efforts to
-                  their full potential!
+                  {config.summary}
                   </Typography>
 
                   <div
@@ -779,22 +821,22 @@ function App() {
 
                     <Typography className={classes.contactText}>
                       <PhoneIcon className={classes.contactIcon} />
-                      925.459.4874
+                      {config.phone}
                     </Typography>
 
                     <Typography className={classes.contactText}>
                       <MailIcon className={classes.contactIcon} />
-                      <a className={classes.noStyleAnchor} href="mailto:contact@charlessweet.me">contact@charlessweet.me</a>
+                      <a className={classes.noStyleAnchor} href={config.emailLink}>{config.email}</a>
                     </Typography>
 
                     <Typography className={classes.contactText}>
                       <LanguageIcon className={classes.contactIcon} />
-                      <a className={classes.noStyleAnchor} href="http://charlessweet.me">charlessweet.me</a>
+                      <a className={classes.noStyleAnchor} href={config.web}>{config.web}</a>
                     </Typography>
 
                     <Typography className={classes.contactText}>
                       <LinkedInIcon className={classes.contactIcon} />
-                      <a className={classes.noStyleAnchor} href="http://www.linkedin.com/in/charles-sweet">linkedin.com/in/charles-sweet</a>
+                      <a className={classes.noStyleAnchor} href={config.linkedInLink}>{config.linkedInLink}</a>
                     </Typography>
 
                     <Typography className={classes.contactText}>
@@ -819,6 +861,9 @@ function App() {
               className={classes.bodyRoot}
               style={{ ...bodyBackgroundColorAnimation as any}}
             >
+              {jobCards}
+
+              {/*
               <Card elevation={contentCardElevation} className={classes.bodyCard} variant={cardVariant as any}>
                 <CardMedia
                   className={classes.bodyCardMediaWWF}
@@ -875,7 +920,7 @@ function App() {
                     </Typography>
                 </animated.div>
               </Card>
-
+              
               <Card elevation={contentCardElevation} className={classes.bodyCard} variant={cardVariant as any}>
                 <CardMedia
                   className={classes.bodyCardMediaHIR}
@@ -995,7 +1040,7 @@ function App() {
                   </Typography>
                 </animated.div>
 
-              </Card>
+              </Card>*/}
               
             </animated.div>
           </Paper>
