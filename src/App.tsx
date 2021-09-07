@@ -23,13 +23,18 @@ import WarningIcon from "@material-ui/icons/WarningTwoTone";
 import React, { useState, useEffect, useRef } from "react";
 import { animated, useSpring, SpringConfig } from "react-spring";
 import "./App.css";
+// @ts-ignore
 import { ReactComponent as qrcode } from "./Icons/qr-code.svg";
+// @ts-ignore
 import { ReactComponent as rightQuote } from "./Icons/right-quotation.svg";
 import { useReactToPrint } from 'react-to-print';
 import { isMobile } from "react-device-detect";
 import { Config } from "./Models/Config";
 import { Job } from "./Models/Job";
-const meImage = require("./Assets/me.jpg");
+import { isLoaded, setIsLoaded, validatedRender, setValidatedRender, setViewportWidth, setViewportHeight, viewportHeight, viewportWidth, scaledVerticalOffset, scaledHorizontalOffset, setScaledVerticalOffset, setScaledHorizontalOffset, currentPaperRotationStyle, AnimationController, currentAnimState, isTransitioning, currentScale, setCurrentScale } from "./AnimationController";
+
+export const animationController = new AnimationController();
+export const meImage = require("./Assets/me.jpg");
 const wwfImage = require("./Assets/wwf.png");
 const hirImage = require("./Assets/hir.jpg");
 const fv2Image = require("./Assets/fv2.jpg");
@@ -38,117 +43,6 @@ const staticLetterSpacing = 0;
 
 let contentCardElevation = 10;
 
-interface IAnimConfig {
-  name: string;
-  viewportBackgroundColor: string;
-  sidebarTopColor: string;
-  sidebarBottomColor: string;
-  sidebarTextColor: string;
-  bodyBackgroundColor: string;
-  bodyTextColor: string;
-}
-
-const colorTransitionConfig: SpringConfig = {
-  duration: 3000
-};
-const paperTransitionConfig: SpringConfig = {
-  friction: 100,
-};
-const gradientTransitionConfig: SpringConfig = {
-  duration: 3000
-};
-
-const animConfigs: IAnimConfig[] = [
-  {
-    name: "🖨️Boring",
-    viewportBackgroundColor: "#ffffff",
-    sidebarTopColor: "#ffffff",
-    sidebarBottomColor: "#ffffff",
-    sidebarTextColor: "#000000",
-    bodyBackgroundColor: "#ffffff",
-    bodyTextColor: "#000000",
-  },{
-    name: "⏪ For more themes! ⏩",
-    viewportBackgroundColor: "#e1e3dd",
-    sidebarTopColor: "rgb(100,173,255)",
-    sidebarBottomColor: "rgb(70,48,255)",
-    sidebarTextColor: "#ffffff",
-    bodyBackgroundColor: "#f0ffff",
-    bodyTextColor: "#000000",
-  },{
-    name: "🇺🇸Vote!",
-    viewportBackgroundColor: "#e1e3dd",
-    sidebarTopColor: "#fe0202",
-    sidebarBottomColor: "#0057ae",
-    sidebarTextColor: "#ffffff",
-    bodyBackgroundColor: "#d42629",
-    bodyTextColor: "#010553",
-  }, {
-    name: "👻Spooky",
-    viewportBackgroundColor: "#2e2e2e",
-    sidebarTopColor: "#d15400",
-    sidebarBottomColor: "#595959",
-    sidebarTextColor: "#ffffff",
-    bodyBackgroundColor: "#48285c",
-    bodyTextColor: "#ffffff",
-  }, {
-    name: "🎄Festive",
-    viewportBackgroundColor: "#659377",
-    sidebarTopColor: "#e80000",
-    sidebarBottomColor: "#570000",
-    sidebarTextColor: "#ffed9f",
-    bodyBackgroundColor: "#3a6b2c",
-    bodyTextColor: "#ffed9f",
-  },{
-    name: "☃️Icy",
-    viewportBackgroundColor: "#d6fffb",
-    sidebarTopColor: "#e3e3ff",
-    sidebarBottomColor: "#b3e4f4",
-    sidebarTextColor: "#020c36",
-    bodyBackgroundColor: "#b3e4f4",
-    bodyTextColor: "#240845",
-  },{
-    name: "🍀Luck o' the Irish",
-    viewportBackgroundColor: "#cce898",
-    sidebarTopColor: "#09cf09",
-    sidebarBottomColor: "#025e25",
-    sidebarTextColor: "#cce898",
-    bodyBackgroundColor: "#38a845",
-    bodyTextColor: "#025e25",
-  },{
-    name: "🐰Easter-Vision",
-    viewportBackgroundColor: "#88f59f",
-    sidebarTopColor: "#ea9ef9",
-    sidebarBottomColor: "#8ff0e4",
-    sidebarTextColor: "#ff6564",
-    bodyBackgroundColor: "#f0e57a",
-    bodyTextColor: "#ff6564",
-  },{
-    name: "🌈Roy G. Biv",
-    viewportBackgroundColor: "#ac1012",
-    sidebarTopColor: "#fd4205",
-    sidebarBottomColor: "#54ab02",
-    sidebarTextColor: "#03005b",
-    bodyBackgroundColor: "#4d0485",
-    bodyTextColor: "#ffdd02",
-  }, {
-    name: "🌞California Dreamin'",
-    viewportBackgroundColor: "#c96826",
-    sidebarTopColor: "#fffd6b",
-    sidebarBottomColor: "#f20014",
-    sidebarTextColor: "#000000",
-    bodyBackgroundColor: "#b8aa8c",
-    bodyTextColor: "#000000",
-  }, {
-    name: "🎀\"You lack pink!\"",
-    viewportBackgroundColor: "#3d3776",
-    sidebarTopColor: "#8ecfc8",
-    sidebarBottomColor: "#f1bdc2",
-    sidebarTextColor: "#000000",
-    bodyBackgroundColor: "#f1bdc2",
-    bodyTextColor: "#000000",
-  }
-];
 const theme = createMuiTheme({
   overrides: {
     MuiTypography: {
@@ -159,29 +53,242 @@ const theme = createMuiTheme({
   }
 });
 
-function getColorConfigByName(name: string): IAnimConfig {
-  return animConfigs.find((config) => config.name === name) || animConfigs[0];
-}
+const useStyles = makeStyles({
+  root: {
+    backgroundColor: currentAnimState.viewportBackgroundColor,
+    width: viewportWidth,
+    height: 1500,
+    position: 'absolute',
+  },
+  paperContainer: {
+    filter: currentAnimState.name.indexOf("Boring") >= 0 ? "grayscale(100%)" : "grayscale(0%)",
+    marginTop: scaledVerticalOffset,
+    marginLeft: scaledHorizontalOffset,
+    display: isLoaded ? 'block' : 'none',
+    minWidth: 816,
+    minHeight: 1056,
+    maxWidth: 816,
+    maxHeight: 1056,
+    transform: currentPaperRotationStyle,
+    //zIndex: 100,
+    //elevation: 100,
+  },
+  paperRoot: {
+    display: "flex",
+    justifyContent: 'center',
+    borderRadius: 0,
+    backgroundColor: "transparent",
+    opacity: validatedRender ? 1 : 0,
+    height: 1056,
+  },
+  sidebarContainer: {
+    width: "33%",
+    height: "100%"
+  },
+  sidebarRoot: {
+    marginLeft: 5,
+    marginRight: 5,
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "space-between",
+    height: '100%',
+  },
+  nameHeader: {
+    textAlign: "center",
+    fontSize: 36,
+    marginTop: 5,
+    letterSpacing: staticLetterSpacing,
+    WebkitTextSizeAdjust: '100%',
+    textSizeAdjust: '100%',
+    MozTextSizeAdjust: '100%',
+  },
+  avatar: {
+    width: 225,
+    height: 225,
+    marginBottom: 8,
+    alignContent: "center",
+    alignSelf: "center",
+    WebkitAlignContent: "center",
+    alignItems: "center",
+    border: 5,
+  },
+  titleHeader: {
+    textAlign: "center",
+    fontSize: 24,
+    letterSpacing: staticLetterSpacing,
+    WebkitTextSizeAdjust: '100%',
+    textSizeAdjust: '100%',
+    MozTextSizeAdjust: '100%',
+  },
+  subtitleHeader: {
+    textAlign: "center",
+    fontSize: 14,
+    letterSpacing: staticLetterSpacing,
+    WebkitTextSizeAdjust: '100%',
+    textSizeAdjust: '100%',
+    MozTextSizeAdjust: '100%',
+  },
+  leftQuote: {
+    textAlign: "left",
+    marginLeft: 5,
+    marginBottom: 5,
+    width: 15,
+    height: 15,
+    transform: `rotate(180deg)`,
+  },
+  quote: {
+    textAlign: "left",
+    fontSize: 14,
+    marginLeft: 14,
+    marginRight: 6,
+    marginTop: -5,
+    letterSpacing: staticLetterSpacing,
+    WebkitTextSizeAdjust: '100%',
+    textSizeAdjust: '100%',
+    MozTextSizeAdjust: '100%',
+  },
+  rightQuote: {
+    textAlign: "right",
+    marginRight: 3,
+    marginTop: 3,
+    marginBottom: 5,
+    width: 15,
+    height: 15,
+  },
+  quoteReverse: {
+    display: 'flex',
+    flexDirection: 'row-reverse'
+  },
+  contactText: {
+    marginTop: -10,
+    marginBottom: 13,
+    letterSpacing: staticLetterSpacing,
+    WebkitTextSizeAdjust: '100%',
+    textSizeAdjust: '100%',
+    MozTextSizeAdjust: '100%'
+  },
+  contactIcon: {
+    marginBottom: -7,
+    marginLeft: 10,
+    marginRight: 8,
+  },
+  noStyleAnchor: {
+    textDecoration: 'inherit',
+    color: 'inherit',
+  },
+  qrCard: {
+    backgroundColor: "transparent",
+    transform: 'scale(0.90) translate(5px, -5%)',
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "center",
+  },
+  qrMedia: {
+    width: 230,
+    height: 230,
+  },
+  bodyRoot: {
+    width: "67%",
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'top',
+    height: 1056,
+  },
+  bodyCard: {
+    width: "96%",
+    marginLeft: "2%",
+    marginBottom: 5,
+    marginTop: 5,
+    backgroundColor: "rgba(255,255,255,0.2)",
+  },
+  bodyCardMediaWWF: {
+    height: 55,
+    backgroundSize: "100%",
+    backgroundPositionY: -39
+  },
+  bodyCardMediaHIR: {
+    height: 55,
+    backgroundPositionY: -102,
+    backgroundSize: "100% 200px",
+  },
+  bodyCardMediaFV2: {
+    height: 55,
+    backgroundPositionY: -17,
+    backgroundSize: "100% 295px",
+  },
+  bodyCardMediaFTV: {
+    height: 55,
+    backgroundPositionY: -13,
+    backgroundSize: "110%",
+  },
+  bodyCardTitle: {
+    textAlign: "center",
+    fontSize: 14,
+    margin: 10,
+    textDecoration: "underline",
+    letterSpacing: staticLetterSpacing,
+    WebkitTextSizeAdjust: '100%',
+    textSizeAdjust: '100%',
+    MozTextSizeAdjust: '100%',
+  },
+  bodyCardContentDense: {
+    textAlign: "left",
+    fontSize: 12,
+    marginLeft: 10,
+    marginBottom: 10,
+    marginRight: 5,
+    letterSpacing: staticLetterSpacing,
+    WebkitTextSizeAdjust: '100%',
+    textSizeAdjust: '100%',
+    MozTextSizeAdjust: '100%',
+  },
+  bodyCardContentLight: {
+    textAlign: "left",
+    fontSize: 12,
+    marginLeft: 10,
+    marginBottom: 5,
+    marginRight: 5,
+    letterSpacing: staticLetterSpacing,
+    WebkitTextSizeAdjust: '100%',
+    textSizeAdjust: '100%',
+    MozTextSizeAdjust: '100%',
+  },
+  bodyCardTechStack: {
+    textAlign: "left",
+    fontSize: 12,
+    marginLeft: 10,
+    paddingBottom: 3,
+    letterSpacing: staticLetterSpacing,
+    WebkitTextSizeAdjust: '100%',
+    textSizeAdjust: '100%',
+    MozTextSizeAdjust: '100%',
+  },
+  circleBorder: {
+    border: `3px solid rgba(0, 0, 0, 0.25)`,
+    width: 225,
+    height: 225,
+    alignSelf: 'center'
+  },
+  circleBorderHidden: {
+    border: `3px solid rgba(0, 0, 0, 0.1)`,
+    width: 225,
+    height: 225,
+    alignSelf: 'center'
+  },
+  killMobileSpacing: {
+    letterSpacing: staticLetterSpacing,
+    WebkitTextSizeAdjust: '100%',
+    textSizeAdjust: '100%',
+    MozTextSizeAdjust: '100%',
+  }
+});
 
-function App() {
-  const startConfig = getColorConfigByName("Default");
-  const [currentAnimState, setCurrentAnimState] = useState(startConfig);
-  const [transitionAnimState, setTransitionAnimState] = useState(startConfig);
-  const [currentConfigIndex, setCurrentConfigIndex] = useState(0);
-  const [paperRotationDegrees, setPaperRotationDegrees] = useState(0);
-  const [gradientStateA, setGradientStateA] = useState(`linear-gradient(0deg, ${startConfig.sidebarTopColor} 0%, ${startConfig.sidebarBottomColor} 100%)`);
-  const [gradientStateB, setGradientStateB] = useState(`linear-gradient(0deg, ${startConfig.sidebarBottomColor} 0%, ${startConfig.sidebarTopColor} 100%)`);
-  const [viewportWidth, setViewportWidth] = useState(window.innerWidth);
-  const [viewportHeight, setViewportHeight] = useState(window.innerHeight);
-  const [currentScale, setCurrentScale] = useState(1);
-  const [scaledHorizontalOffset, setScaledHorizontalOffset] = useState(0);
-  const [scaledVerticalOffset, setScaledVerticalOffset] = useState(0);
-  const [currentPaperRotationStyle, setCurrentPaperRotationStyle] = useState(`perspective(2000px) rotateY(0deg) scale(${currentScale})`);
+export const styles = useStyles();
+
+export const App = () => {
+  
+  
   const [cardVariant, setCardVariant] = useState("outlined");
-  const [isTransitioning, setIsTransitioning] = useState(false);
-  const [isHidingThemeName, setIsHidingThemeName] = useState(false);
-  const [isLoaded, setIsLoaded] = useState(false);
-  const [validatedRender, setValidatedRender] = useState(false);
   const [isInvalid, setIsInvalid] = useState(false);
 
   const pdfComponentRef = useRef();
@@ -191,7 +298,7 @@ function App() {
 
   // data
   const rawJsonConfig = `{"name":"A","title":"B","subtitle":"C","summary":"D","summaryIsQuote":true,"phone":"E","email":"F","linkedInUsername":"G","web":"H","githubUsername":"I","jobs":[{"title":"Software Engineer II","team":"Words With Friends","company":"Zynga","start":"2018","jobBullets":[{"bulletChar":"•","text":"AA"},{"bulletChar":"•","text":"AB"},{"bulletChar":"•","text":"AC"},{"bulletChar":"•","text":"AD"}],"jobList":{"name":"Tech Stacks","delimiter":",","listItems":["JavaScript","TypeScript","Node.js","cocods-2d-js","React","React Native"]}}]}`;
-  const config = new Config().deserialize(JSON.parse(rawJsonConfig));
+  export const config = new Config().deserialize(JSON.parse(rawJsonConfig));
   
   // data
 
@@ -257,329 +364,10 @@ function App() {
       setTimeout(() => {
         setIsLoaded(true);
         window.scrollTo(0, 0);
-        transitionTheme();
+        animationController.transitionTheme();
       }, 2500);
     });
   }, [viewportWidth, setViewportWidth, currentScale, setCurrentScale, setScaledHorizontalOffset, setScaledVerticalOffset, viewportHeight]);
-
-  const useStyles = makeStyles({
-    root: {
-      backgroundColor: currentAnimState.viewportBackgroundColor,
-      width: viewportWidth,
-      height: 1500,
-      position: 'absolute',
-    },
-    paperContainer: {
-      filter: currentAnimState.name.indexOf("Boring") >= 0 ? "grayscale(100%)" : "grayscale(0%)",
-      marginTop: scaledVerticalOffset,
-      marginLeft: scaledHorizontalOffset,
-      display: isLoaded ? 'block' : 'none',
-      minWidth: 816,
-      minHeight: 1056,
-      maxWidth: 816,
-      maxHeight: 1056,
-      transform: currentPaperRotationStyle,
-      //zIndex: 100,
-      //elevation: 100,
-    },
-    paperRoot: {
-      display: "flex",
-      justifyContent: 'center',
-      borderRadius: 0,
-      backgroundColor: "transparent",
-      opacity: validatedRender ? 1 : 0,
-      height: 1056,
-    },
-    sidebarContainer: {
-      width: "33%",
-      height: "100%"
-    },
-    sidebarRoot: {
-      marginLeft: 5,
-      marginRight: 5,
-      display: "flex",
-      flexDirection: "column",
-      justifyContent: "space-between",
-      height: '100%',
-    },
-    nameHeader: {
-      textAlign: "center",
-      fontSize: 36,
-      marginTop: 5,
-      letterSpacing: staticLetterSpacing,
-      WebkitTextSizeAdjust: '100%',
-      textSizeAdjust: '100%',
-      MozTextSizeAdjust: '100%',
-    },
-    avatar: {
-      width: 225,
-      height: 225,
-      marginBottom: 8,
-      alignContent: "center",
-      alignSelf: "center",
-      WebkitAlignContent: "center",
-      alignItems: "center",
-      border: 5,
-    },
-    titleHeader: {
-      textAlign: "center",
-      fontSize: 24,
-      letterSpacing: staticLetterSpacing,
-      WebkitTextSizeAdjust: '100%',
-      textSizeAdjust: '100%',
-      MozTextSizeAdjust: '100%',
-    },
-    subtitleHeader: {
-      textAlign: "center",
-      fontSize: 14,
-      letterSpacing: staticLetterSpacing,
-      WebkitTextSizeAdjust: '100%',
-      textSizeAdjust: '100%',
-      MozTextSizeAdjust: '100%',
-    },
-    leftQuote: {
-      textAlign: "left",
-      marginLeft: 5,
-      marginBottom: 5,
-      width: 15,
-      height: 15,
-      transform: `rotate(180deg)`,
-    },
-    quote: {
-      textAlign: "left",
-      fontSize: 14,
-      marginLeft: 14,
-      marginRight: 6,
-      marginTop: -5,
-      letterSpacing: staticLetterSpacing,
-      WebkitTextSizeAdjust: '100%',
-      textSizeAdjust: '100%',
-      MozTextSizeAdjust: '100%',
-    },
-    rightQuote: {
-      textAlign: "right",
-      marginRight: 3,
-      marginTop: 3,
-      marginBottom: 5,
-      width: 15,
-      height: 15,
-    },
-    quoteReverse: {
-      display: 'flex',
-      flexDirection: 'row-reverse'
-    },
-    contactText: {
-      marginTop: -10,
-      marginBottom: 13,
-      letterSpacing: staticLetterSpacing,
-      WebkitTextSizeAdjust: '100%',
-      textSizeAdjust: '100%',
-      MozTextSizeAdjust: '100%'
-    },
-    contactIcon: {
-      marginBottom: -7,
-      marginLeft: 10,
-      marginRight: 8,
-    },
-    noStyleAnchor: {
-      textDecoration: 'inherit',
-      color: 'inherit',
-    },
-    qrCard: {
-      backgroundColor: "transparent",
-      transform: 'scale(0.90) translate(5px, -5%)',
-      display: "flex",
-      flexDirection: "row",
-      justifyContent: "center",
-    },
-    qrMedia: {
-      width: 230,
-      height: 230,
-    },
-    bodyRoot: {
-      width: "67%",
-      display: 'flex',
-      flexDirection: 'column',
-      justifyContent: 'top',
-      height: 1056,
-    },
-    bodyCard: {
-      width: "96%",
-      marginLeft: "2%",
-      marginBottom: 5,
-      marginTop: 5,
-      backgroundColor: "rgba(255,255,255,0.2)",
-    },
-    bodyCardMediaWWF: {
-      height: 55,
-      backgroundSize: "100%",
-      backgroundPositionY: -39
-    },
-    bodyCardMediaHIR: {
-      height: 55,
-      backgroundPositionY: -102,
-      backgroundSize: "100% 200px",
-    },
-    bodyCardMediaFV2: {
-      height: 55,
-      backgroundPositionY: -17,
-      backgroundSize: "100% 295px",
-    },
-    bodyCardMediaFTV: {
-      height: 55,
-      backgroundPositionY: -13,
-      backgroundSize: "110%",
-    },
-    bodyCardTitle: {
-      textAlign: "center",
-      fontSize: 14,
-      margin: 10,
-      textDecoration: "underline",
-      letterSpacing: staticLetterSpacing,
-      WebkitTextSizeAdjust: '100%',
-      textSizeAdjust: '100%',
-      MozTextSizeAdjust: '100%',
-    },
-    bodyCardContentDense: {
-      textAlign: "left",
-      fontSize: 12,
-      marginLeft: 10,
-      marginBottom: 10,
-      marginRight: 5,
-      letterSpacing: staticLetterSpacing,
-      WebkitTextSizeAdjust: '100%',
-      textSizeAdjust: '100%',
-      MozTextSizeAdjust: '100%',
-    },
-    bodyCardContentLight: {
-      textAlign: "left",
-      fontSize: 12,
-      marginLeft: 10,
-      marginBottom: 5,
-      marginRight: 5,
-      letterSpacing: staticLetterSpacing,
-      WebkitTextSizeAdjust: '100%',
-      textSizeAdjust: '100%',
-      MozTextSizeAdjust: '100%',
-    },
-    bodyCardTechStack: {
-      textAlign: "left",
-      fontSize: 12,
-      marginLeft: 10,
-      paddingBottom: 3,
-      letterSpacing: staticLetterSpacing,
-      WebkitTextSizeAdjust: '100%',
-      textSizeAdjust: '100%',
-      MozTextSizeAdjust: '100%',
-    },
-    circleBorder: {
-      border: `3px solid rgba(0, 0, 0, 0.25)`,
-      width: 225,
-      height: 225,
-      alignSelf: 'center'
-    },
-    circleBorderHidden: {
-      border: `3px solid rgba(0, 0, 0, 0.1)`,
-      width: 225,
-      height: 225,
-      alignSelf: 'center'
-    },
-    killMobileSpacing: {
-      letterSpacing: staticLetterSpacing,
-      WebkitTextSizeAdjust: '100%',
-      textSizeAdjust: '100%',
-      MozTextSizeAdjust: '100%',
-    }
-  });
-
-  const classes = useStyles();
-
-  function SpinPaperAnimation() {
-    const toPaperRotationStyle = `perspective(2000px) rotateY(${paperRotationDegrees}deg) scale(${currentScale})`;
-    return useSpring({
-      from: {
-        transform: currentPaperRotationStyle
-      },
-      to: {
-        transform: toPaperRotationStyle
-      },
-      config: paperTransitionConfig,
-      onRest: () => {
-        setCurrentPaperRotationStyle(toPaperRotationStyle);
-        setIsTransitioning(false);
-      }
-    });
-  };
-
-  const advanceRotation = (left?: boolean) => {
-    setPaperRotationDegrees(left ? paperRotationDegrees - 360 : paperRotationDegrees + 360);
-  }
-
-  // no params for next, (true) for previous
-  function transitionTheme(previous?: boolean) {
-    setIsTransitioning(true);
-    const lastIndex = animConfigs.length - 1;
-    let targetIndex = 0;
-    if (previous) {
-      targetIndex = currentConfigIndex === 0 ? lastIndex : currentConfigIndex - 1;
-    } else {
-      targetIndex = currentConfigIndex === lastIndex ? 0 : currentConfigIndex + 1;
-    }
-    const newState = animConfigs[targetIndex];
-    setTransitionAnimState(newState);
-    setCurrentConfigIndex(targetIndex);
-    setCurrentAnimState(newState);
-    setGradientStateA(`linear-gradient(0deg, ${newState.sidebarTopColor} 0%, ${newState.sidebarBottomColor} 100%)`);
-    setGradientStateB(`linear-gradient(0deg, ${newState.sidebarBottomColor} 0%, ${newState.sidebarTopColor} 100%)`);
-    advanceRotation(previous);
-  }
-
-  const gradientAnimation = useSpring({
-    from: {
-      background: gradientStateA
-    },
-    to: {
-      background: gradientStateB
-    },
-    loop: { reverse: true },
-    config: gradientTransitionConfig
-  });
-
-  const viewportBackgroundColorAnimation = useSpring({
-    to: {
-      backgroundColor: transitionAnimState.viewportBackgroundColor
-    },
-    config: colorTransitionConfig
-  });
-
-  const sidebarTextColorAnimation = useSpring({
-    to: {
-      color: transitionAnimState.sidebarTextColor
-    },
-    config: colorTransitionConfig
-  });
-
-  const qrFillColorAnimation = useSpring({
-    to: {
-      color: transitionAnimState.sidebarTextColor,
-      fill: transitionAnimState.sidebarTextColor
-    },
-    config: colorTransitionConfig
-  });
-
-  const bodyBackgroundColorAnimation = useSpring({
-    to: {
-      backgroundColor: transitionAnimState.bodyBackgroundColor
-    },
-    config: colorTransitionConfig
-  });
-
-  const bodyTextColorAnimation = useSpring({
-    to: {
-      color: transitionAnimState.bodyTextColor
-    },
-    config:  colorTransitionConfig
-  });
 
   // create job cards
   const jobCards: any[] = [];
@@ -589,31 +377,31 @@ function App() {
     const jobBullets: any[] = [];
     for ( let jobBullet of job.jobBullets) {
       jobBullets.push(<Typography
-        className={classes.bodyCardContentDense}
+        className={styles.bodyCardContentDense}
         key={"job_bullet_" + jobCardInd + "_" + jobBulletInd++}
       >
         {jobBullet.bulletChar}{" "}{jobBullet.text}
       </Typography>)
     }
     jobCards.push(
-      <Card key={"job_card_" + jobCardInd++} elevation={contentCardElevation} className={classes.bodyCard} variant={cardVariant as any}>
+      <Card key={"job_card_" + jobCardInd++} elevation={contentCardElevation} className={styles.bodyCard} variant={cardVariant as any}>
                 <CardMedia
-                  className={classes.bodyCardMediaWWF}
+                  className={styles.bodyCardMediaWWF}
                   image={wwfImage}
                 />
                 <animated.div
                 style={{
-                  ...bodyTextColorAnimation as any
+                  ...animationController.bodyTextColorAnimation as any
                 }}
                 >
-                  <Typography className={classes.bodyCardTitle}>
+                  <Typography className={styles.bodyCardTitle}>
                     {job.jobSummaryHeader}
                   </Typography>
 
                   {jobBullets}
 
                   <Typography
-                    className={classes.bodyCardTechStack}
+                    className={styles.bodyCardTechStack}
                   >
                     <em>
                       Tech Stack: JavaScript, TypeScript, Node.js, cocos2d-js, React, React Native
@@ -628,9 +416,9 @@ function App() {
     <ThemeProvider theme={theme}>
       <animated.div
       style={{
-        ...viewportBackgroundColorAnimation as any
+        ...animationController.viewportBackgroundColorAnimation as any
       }}
-      className={classes.root}>
+      className={styles.root}>
       </animated.div>
         <div style={{ paddingTop: 30 }} />
         <animated.div
@@ -644,7 +432,7 @@ function App() {
           variant="contained"
           disabled={!isLoaded || isInvalid}
           onClick={() => {
-            transitionTheme(true);
+            animationController.transitionTheme(true);
           }}
           >
             <BackIcon/>
@@ -668,7 +456,7 @@ function App() {
           disabled={!isLoaded || isInvalid}
             variant="contained"
             onClick={() => {
-              transitionTheme();
+              animationController.transitionTheme();
             }}
           >
             <NextIcon/>
@@ -741,9 +529,9 @@ function App() {
         }
 
         {<animated.div
-          className={classes.paperContainer}
+          className={styles.paperContainer}
           style={{
-            ...SpinPaperAnimation()
+            ...animationController.SpinPaperAnimation()
           }}
         >
           <div
@@ -763,36 +551,36 @@ function App() {
               </Typography>
             </div>
           <Paper
-            className={classes.paperRoot}
+            className={styles.paperRoot}
             elevation={10}
             ref={pdfComponentRef as any}
           >
             <animated.div
               style={{
-                ...gradientAnimation as any
+                ...animationController.gradientAnimation as any
               }}
-              className={classes.sidebarContainer}
+              className={styles.sidebarContainer}
             >
                 <animated.div
-                  className={classes.sidebarRoot}
+                  className={styles.sidebarRoot}
                   style={{
-                  ...sidebarTextColorAnimation as any
+                  ...animationController.sidebarTextColorAnimation as any
                   }}>
-                  <Typography className={classes.nameHeader}>
+                  <Typography className={styles.nameHeader}>
                     {config.name}
                   </Typography>
                   <Avatar
                     src={meImage}
                     classes={{
-                      circle: !isTransitioning ? classes.circleBorder : classes.circleBorderHidden
+                      circle: !isTransitioning ? styles.circleBorder : styles.circleBorderHidden
                     }}
                   />
 
-                  <Typography className={classes.titleHeader}>
+                  <Typography className={styles.titleHeader}>
                     {config.title}
                   </Typography>
                   {
-                    config.subtitle && <Typography className={classes.subtitleHeader}>
+                    config.subtitle && <Typography className={styles.subtitleHeader}>
                     <em>
                       {config.subtitle}
                     </em>
@@ -800,54 +588,54 @@ function App() {
                   }
 
                   <SvgIcon
-                    className={classes.leftQuote}
+                    className={styles.leftQuote}
                     component={rightQuote}
                     viewBox="0 0 100 100"
                   />
                   
-                  <Typography className={classes.quote}>
+                  <Typography className={styles.quote}>
                   {config.summary}
                   </Typography>
 
                   <div
-                  className={classes.quoteReverse}
+                  className={styles.quoteReverse}
                   >
                   <SvgIcon
-                    className={classes.rightQuote}
+                    className={styles.rightQuote}
                     component={rightQuote}
                     viewBox="0 0 100 100"
                   />
                   </div>
 
-                    <Typography className={classes.contactText}>
-                      <PhoneIcon className={classes.contactIcon} />
+                    <Typography className={styles.contactText}>
+                      <PhoneIcon className={styles.contactIcon} />
                       {config.phone}
                     </Typography>
 
-                    <Typography className={classes.contactText}>
-                      <MailIcon className={classes.contactIcon} />
-                      <a className={classes.noStyleAnchor} href={config.emailLink}>{config.email}</a>
+                    <Typography className={styles.contactText}>
+                      <MailIcon className={styles.contactIcon} />
+                      <a className={styles.noStyleAnchor} href={config.emailLink}>{config.email}</a>
                     </Typography>
 
-                    <Typography className={classes.contactText}>
-                      <LanguageIcon className={classes.contactIcon} />
-                      <a className={classes.noStyleAnchor} href={config.web}>{config.web}</a>
+                    <Typography className={styles.contactText}>
+                      <LanguageIcon className={styles.contactIcon} />
+                      <a className={styles.noStyleAnchor} href={config.web}>{config.web}</a>
                     </Typography>
 
-                    <Typography className={classes.contactText}>
-                      <LinkedInIcon className={classes.contactIcon} />
-                      <a className={classes.noStyleAnchor} href={config.linkedInLink}>{config.linkedInLink}</a>
+                    <Typography className={styles.contactText}>
+                      <LinkedInIcon className={styles.contactIcon} />
+                      <a className={styles.noStyleAnchor} href={config.linkedInLink}>{config.linkedInLink}</a>
                     </Typography>
 
-                    <Typography className={classes.contactText}>
-                      <GitHubIcon className={classes.contactIcon} />
-                      <a className={classes.noStyleAnchor} href="http://www.github.com/cSweetMaj7">github.com/cSweetMaj7</a>
+                    <Typography className={styles.contactText}>
+                      <GitHubIcon className={styles.contactIcon} />
+                      <a className={styles.noStyleAnchor} href="http://www.github.com/cSweetMaj7">github.com/cSweetMaj7</a>
                     </Typography>
 
-                    <Card elevation={0} className={classes.qrCard}>
-                      <animated.div style={{...qrFillColorAnimation as any}}>
+                    <Card elevation={0} className={styles.qrCard}>
+                      <animated.div style={{...animationController.qrFillColorAnimation as any}}>
                           <SvgIcon
-                            className={classes.qrMedia}
+                            className={styles.qrMedia}
                             component={qrcode}
                             viewBox="80 80 1050 1050"
                           />
@@ -858,8 +646,8 @@ function App() {
             </animated.div>
 
             <animated.div
-              className={classes.bodyRoot}
-              style={{ ...bodyBackgroundColorAnimation as any}}
+              className={styles.bodyRoot}
+              style={{ ...animationController.bodyBackgroundColorAnimation as any}}
             >
               {jobCards}
 
