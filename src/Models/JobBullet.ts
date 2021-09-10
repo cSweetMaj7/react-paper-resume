@@ -8,7 +8,7 @@ export class JobBullet implements IJobBullet {
     public bulletChar!: string;
     public text!: string;
 
-    Job(data: IJobBullet) {
+    JobBullet(data: IJobBullet) {
         Object.assign(this, data);
     }
 

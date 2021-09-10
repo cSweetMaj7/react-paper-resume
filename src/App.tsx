@@ -23,148 +23,19 @@ import WarningIcon from "@material-ui/icons/WarningTwoTone";
 import React, { useState, useEffect, useRef } from "react";
 import { animated, useSpring, SpringConfig } from "react-spring";
 import "./App.css";
-import { ReactComponent as qrcode } from "./Icons/qr-code.svg";
-import { ReactComponent as rightQuote } from "./Icons/right-quotation.svg";
 import { useReactToPrint } from 'react-to-print';
 import { isMobile } from "react-device-detect";
 import { Config } from "./Models/Config";
-import { Job } from "./Models/Job";
-const meImage = require("./Assets/me.jpg");
-const wwfImage = require("./Assets/wwf.png");
-const hirImage = require("./Assets/hir.jpg");
-const fv2Image = require("./Assets/fv2.jpg");
-const ftvImage = require("./Assets/ftv.jpg");
-const staticLetterSpacing = 0;
-
-let contentCardElevation = 10;
-
-interface IAnimConfig {
-  name: string;
-  viewportBackgroundColor: string;
-  sidebarTopColor: string;
-  sidebarBottomColor: string;
-  sidebarTextColor: string;
-  bodyBackgroundColor: string;
-  bodyTextColor: string;
-}
-
-const colorTransitionConfig: SpringConfig = {
-  duration: 3000
-};
-const paperTransitionConfig: SpringConfig = {
-  friction: 100,
-};
-const gradientTransitionConfig: SpringConfig = {
-  duration: 3000
-};
-
-const animConfigs: IAnimConfig[] = [
-  {
-    name: "🖨️Boring",
-    viewportBackgroundColor: "#ffffff",
-    sidebarTopColor: "#ffffff",
-    sidebarBottomColor: "#ffffff",
-    sidebarTextColor: "#000000",
-    bodyBackgroundColor: "#ffffff",
-    bodyTextColor: "#000000",
-  },{
-    name: "⏪ For more themes! ⏩",
-    viewportBackgroundColor: "#e1e3dd",
-    sidebarTopColor: "rgb(100,173,255)",
-    sidebarBottomColor: "rgb(70,48,255)",
-    sidebarTextColor: "#ffffff",
-    bodyBackgroundColor: "#f0ffff",
-    bodyTextColor: "#000000",
-  },{
-    name: "🇺🇸Vote!",
-    viewportBackgroundColor: "#e1e3dd",
-    sidebarTopColor: "#fe0202",
-    sidebarBottomColor: "#0057ae",
-    sidebarTextColor: "#ffffff",
-    bodyBackgroundColor: "#d42629",
-    bodyTextColor: "#010553",
-  }, {
-    name: "👻Spooky",
-    viewportBackgroundColor: "#2e2e2e",
-    sidebarTopColor: "#d15400",
-    sidebarBottomColor: "#595959",
-    sidebarTextColor: "#ffffff",
-    bodyBackgroundColor: "#48285c",
-    bodyTextColor: "#ffffff",
-  }, {
-    name: "🎄Festive",
-    viewportBackgroundColor: "#659377",
-    sidebarTopColor: "#e80000",
-    sidebarBottomColor: "#570000",
-    sidebarTextColor: "#ffed9f",
-    bodyBackgroundColor: "#3a6b2c",
-    bodyTextColor: "#ffed9f",
-  },{
-    name: "☃️Icy",
-    viewportBackgroundColor: "#d6fffb",
-    sidebarTopColor: "#e3e3ff",
-    sidebarBottomColor: "#b3e4f4",
-    sidebarTextColor: "#020c36",
-    bodyBackgroundColor: "#b3e4f4",
-    bodyTextColor: "#240845",
-  },{
-    name: "🍀Luck o' the Irish",
-    viewportBackgroundColor: "#cce898",
-    sidebarTopColor: "#09cf09",
-    sidebarBottomColor: "#025e25",
-    sidebarTextColor: "#cce898",
-    bodyBackgroundColor: "#38a845",
-    bodyTextColor: "#025e25",
-  },{
-    name: "🐰Easter-Vision",
-    viewportBackgroundColor: "#88f59f",
-    sidebarTopColor: "#ea9ef9",
-    sidebarBottomColor: "#8ff0e4",
-    sidebarTextColor: "#ff6564",
-    bodyBackgroundColor: "#f0e57a",
-    bodyTextColor: "#ff6564",
-  },{
-    name: "🌈Roy G. Biv",
-    viewportBackgroundColor: "#ac1012",
-    sidebarTopColor: "#fd4205",
-    sidebarBottomColor: "#54ab02",
-    sidebarTextColor: "#03005b",
-    bodyBackgroundColor: "#4d0485",
-    bodyTextColor: "#ffdd02",
-  }, {
-    name: "🌞California Dreamin'",
-    viewportBackgroundColor: "#c96826",
-    sidebarTopColor: "#fffd6b",
-    sidebarBottomColor: "#f20014",
-    sidebarTextColor: "#000000",
-    bodyBackgroundColor: "#b8aa8c",
-    bodyTextColor: "#000000",
-  }, {
-    name: "🎀\"You lack pink!\"",
-    viewportBackgroundColor: "#3d3776",
-    sidebarTopColor: "#8ecfc8",
-    sidebarBottomColor: "#f1bdc2",
-    sidebarTextColor: "#000000",
-    bodyBackgroundColor: "#f1bdc2",
-    bodyTextColor: "#000000",
-  }
-];
-const theme = createMuiTheme({
-  overrides: {
-    MuiTypography: {
-      root: {
-        fontFamily: 'Roboto',
-      }
-    }
-  }
-});
-
-function getColorConfigByName(name: string): IAnimConfig {
-  return animConfigs.find((config) => config.name === name) || animConfigs[0];
-}
+// @ts-ignore
+import { ReactComponent as qrcode } from "./Icons/qr-code.svg";
+// @ts-ignore
+import { ReactComponent as rightQuote } from "./Icons/right-quotation.svg";
+import jsonConfig from "./config.json";
 
 function App() {
-  const startConfig = getColorConfigByName("Default");
+  // hooks
+  const config = new Config().deserialize(jsonConfig);
+  const startConfig = config.themes[1];
   const [currentAnimState, setCurrentAnimState] = useState(startConfig);
   const [transitionAnimState, setTransitionAnimState] = useState(startConfig);
   const [currentConfigIndex, setCurrentConfigIndex] = useState(0);
@@ -177,91 +48,21 @@ function App() {
   const [scaledHorizontalOffset, setScaledHorizontalOffset] = useState(0);
   const [scaledVerticalOffset, setScaledVerticalOffset] = useState(0);
   const [currentPaperRotationStyle, setCurrentPaperRotationStyle] = useState(`perspective(2000px) rotateY(0deg) scale(${currentScale})`);
-  const [cardVariant, setCardVariant] = useState("outlined");
   const [isTransitioning, setIsTransitioning] = useState(false);
-  const [isHidingThemeName, setIsHidingThemeName] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
   const [validatedRender, setValidatedRender] = useState(false);
   const [isInvalid, setIsInvalid] = useState(false);
 
+  // constants
   const pdfComponentRef = useRef();
-  const handlePrint = useReactToPrint({
-    content: () => pdfComponentRef.current as any,
-  });
-
-  // data
-  const rawJsonConfig = `{"name":"A","title":"B","subtitle":"C","summary":"D","summaryIsQuote":true,"phone":"E","email":"F","linkedInUsername":"G","web":"H","githubUsername":"I","jobs":[{"title":"Software Engineer II","team":"Words With Friends","company":"Zynga","start":"2018","jobBullets":[{"bulletChar":"•","text":"AA"},{"bulletChar":"•","text":"AB"},{"bulletChar":"•","text":"AC"},{"bulletChar":"•","text":"AD"}],"jobList":{"name":"Tech Stacks","delimiter":",","listItems":["JavaScript","TypeScript","Node.js","cocods-2d-js","React","React Native"]}}]}`;
-  const config = new Config().deserialize(JSON.parse(rawJsonConfig));
-  
-  // data
-
   const boundaryRef = useRef<HTMLElement>(null);
   const domRect = boundaryRef?.current?.getBoundingClientRect();
   const yOffset = Math.floor(domRect?.top || 0);
-  if (isLoaded && !validatedRender && yOffset !== 0 && yOffset <= 1162) {
-    //console.warn("RENDER VALID");
-    const ratio = +(viewportWidth/816).toFixed(2);
-    const vDiff = 1056 - (1056 * ratio);
-    const hDiff = 816 - (816 * ratio);
-    const isDownscaled = viewportWidth < 816;
-    const lessScaleForMargins = 0.1;
-    const calculatedScale = isDownscaled ? ratio - lessScaleForMargins : 1;
-    setCurrentScale(calculatedScale);
-    setScaledVerticalOffset(isDownscaled ? (vDiff/2 * -1) - 40 : 0);
-    setScaledHorizontalOffset(hDiff/2 * -1);
-    setValidatedRender(true);
-  } else if (isLoaded && !isInvalid && !validatedRender && yOffset !== 0 && yOffset > 1162) {
-    setIsInvalid(true);
-  }
-  //console.warn("Y Bounding Rect: " + JSON.stringify(domRect));
+  const staticLetterSpacing = 0;
+  const US_LETTER_X = 816;
+  const US_LETTER_Y = 1056;
 
-  const iOS = () => {
-    return [
-      'iPad Simulator',
-      'iPhone Simulator',
-      'iPod Simulator',
-      'iPad',
-      'iPhone',
-      'iPod'
-    ].includes(navigator.platform)
-    // iPad on iOS 13 detection
-    || (navigator.userAgent.includes("Mac") && "ontouchend" in document)
-  }
-
-  useEffect(() => {
-    const scale = () => {
-      setViewportWidth(window.innerWidth);
-      setViewportHeight(window.innerHeight);
-      const ratio = +(viewportWidth/816).toFixed(2);
-      const vDiff = 1056 - (1056 * ratio);
-      const hDiff = 816 - (816 * ratio);
-      const isDownscaled = validatedRender && viewportWidth < 816;
-      const lessScaleForMargins = 0.1;
-      const calculatedScale = isDownscaled ? ratio - lessScaleForMargins : 1;
-      if (validatedRender) {
-        setCurrentScale(calculatedScale);
-      }
-      setScaledVerticalOffset(isDownscaled ? (vDiff/2 * -1) - 40 : 0);
-      setScaledHorizontalOffset(hDiff/2 * -1);
-    }
-    const tryScale = () => {
-      if (viewportWidth !== window.innerWidth || viewportHeight !== window.innerHeight) {
-        scale();
-      }
-    }
-    window.addEventListener('resize', () => {
-      tryScale();
-    });
-    window.addEventListener('load', () => {
-      scale();
-      setTimeout(() => {
-        setIsLoaded(true);
-        window.scrollTo(0, 0);
-        transitionTheme();
-      }, 2500);
-    });
-  }, [viewportWidth, setViewportWidth, currentScale, setCurrentScale, setScaledHorizontalOffset, setScaledVerticalOffset, viewportHeight]);
-
+  // styles are here as they are dependent on the above hooks and need to be in their scope
   const useStyles = makeStyles({
     root: {
       backgroundColor: currentAnimState.viewportBackgroundColor,
@@ -274,13 +75,11 @@ function App() {
       marginTop: scaledVerticalOffset,
       marginLeft: scaledHorizontalOffset,
       display: isLoaded ? 'block' : 'none',
-      minWidth: 816,
-      minHeight: 1056,
-      maxWidth: 816,
-      maxHeight: 1056,
+      minWidth: US_LETTER_X,
+      minHeight: US_LETTER_Y,
+      maxWidth: US_LETTER_X,
+      maxHeight: US_LETTER_Y,
       transform: currentPaperRotationStyle,
-      //zIndex: 100,
-      //elevation: 100,
     },
     paperRoot: {
       display: "flex",
@@ -288,7 +87,7 @@ function App() {
       borderRadius: 0,
       backgroundColor: "transparent",
       opacity: validatedRender ? 1 : 0,
-      height: 1056,
+      height: US_LETTER_Y,
     },
     sidebarContainer: {
       width: "33%",
@@ -401,7 +200,7 @@ function App() {
       display: 'flex',
       flexDirection: 'column',
       justifyContent: 'top',
-      height: 1056,
+      height: US_LETTER_Y,
     },
     bodyCard: {
       width: "96%",
@@ -491,9 +290,89 @@ function App() {
       MozTextSizeAdjust: '100%',
     }
   });
-
+  
   const classes = useStyles();
 
+  // helper methods
+  const colorTransitionConfig: SpringConfig = {
+    duration: 3000
+  };
+  const paperTransitionConfig: SpringConfig = {
+    friction: 100,
+  };
+  const gradientTransitionConfig: SpringConfig = {
+    duration: 3000
+  };
+
+  const handlePrint = useReactToPrint({
+    content: () => pdfComponentRef.current as any,
+  });
+
+  if (isLoaded && !validatedRender && yOffset !== 0 && yOffset <= 1162) {
+    const ratio = +(viewportWidth/US_LETTER_X).toFixed(2);
+    const vDiff = US_LETTER_Y - (US_LETTER_Y * ratio);
+    const hDiff = US_LETTER_X - (US_LETTER_X * ratio);
+    const isDownscaled = viewportWidth < US_LETTER_X;
+    const lessScaleForMargins = 0.1;
+    const calculatedScale = isDownscaled ? ratio - lessScaleForMargins : 1;
+    setCurrentScale(calculatedScale);
+    setScaledVerticalOffset(isDownscaled ? (vDiff/2 * -1) - 40 : 0);
+    setScaledHorizontalOffset(hDiff/2 * -1);
+    setValidatedRender(true);
+  } else if (isLoaded && !isInvalid && !validatedRender && yOffset !== 0 && yOffset > 1162) {
+    setIsInvalid(true);
+  }
+
+  const iOS = () => {
+    return [
+      'iPad Simulator',
+      'iPhone Simulator',
+      'iPod Simulator',
+      'iPad',
+      'iPhone',
+      'iPod'
+    ].includes(navigator.platform)
+    // iPad on iOS 13 detection
+    || (navigator.userAgent.includes("Mac") && "ontouchend" in document)
+  }
+
+  // load and resize effects
+  useEffect(() => {
+    const scale = () => {
+      setViewportWidth(window.innerWidth);
+      setViewportHeight(window.innerHeight);
+      const ratio = +(viewportWidth/US_LETTER_X).toFixed(2);
+      const vDiff = US_LETTER_Y - (US_LETTER_Y * ratio);
+      const hDiff = US_LETTER_X - (US_LETTER_X * ratio);
+      const isDownscaled = validatedRender && viewportWidth < US_LETTER_X;
+      const lessScaleForMargins = 0.1;
+      const calculatedScale = isDownscaled ? ratio - lessScaleForMargins : 1;
+      if (validatedRender) {
+        setCurrentScale(calculatedScale);
+      }
+      setScaledVerticalOffset(isDownscaled ? (vDiff/2 * -1) - 40 : 0);
+      setScaledHorizontalOffset(hDiff/2 * -1);
+    }
+    const tryScale = () => {
+      if (viewportWidth !== window.innerWidth || viewportHeight !== window.innerHeight) {
+        scale();
+      }
+    }
+    window.addEventListener('resize', () => {
+      tryScale();
+    });
+    window.addEventListener('load', () => {
+      scale();
+      setTimeout(() => {
+        setIsLoaded(true);
+        window.scrollTo(0, 0);
+        transitionTheme();
+      }, 2500);
+       // calling of transitionTheme in this scope without hook reference is acceptable
+    });// eslint-disable-next-line
+  }, [viewportWidth, setViewportWidth, currentScale, setCurrentScale, setScaledHorizontalOffset, setScaledVerticalOffset, viewportHeight, validatedRender]);
+
+  // animation methods
   function SpinPaperAnimation() {
     const toPaperRotationStyle = `perspective(2000px) rotateY(${paperRotationDegrees}deg) scale(${currentScale})`;
     return useSpring({
@@ -518,14 +397,14 @@ function App() {
   // no params for next, (true) for previous
   function transitionTheme(previous?: boolean) {
     setIsTransitioning(true);
-    const lastIndex = animConfigs.length - 1;
+    const lastIndex = config.themes.length - 1;
     let targetIndex = 0;
     if (previous) {
       targetIndex = currentConfigIndex === 0 ? lastIndex : currentConfigIndex - 1;
     } else {
       targetIndex = currentConfigIndex === lastIndex ? 0 : currentConfigIndex + 1;
     }
-    const newState = animConfigs[targetIndex];
+    const newState = config.themes[targetIndex];
     setTransitionAnimState(newState);
     setCurrentConfigIndex(targetIndex);
     setCurrentAnimState(newState);
@@ -587,7 +466,7 @@ function App() {
   let jobBulletInd = 0;
   for (let job of config.jobs) {
     const jobBullets: any[] = [];
-    for ( let jobBullet of job.jobBullets) {
+    for (const jobBullet of job.jobBullets) {
       jobBullets.push(<Typography
         className={classes.bodyCardContentDense}
         key={"job_bullet_" + jobCardInd + "_" + jobBulletInd++}
@@ -595,35 +474,158 @@ function App() {
         {jobBullet.bulletChar}{" "}{jobBullet.text}
       </Typography>)
     }
+    const { listItems, name, delimiter } = job.jobList;
+    let listedItems: string = name + ": ";
+    const listLen = listItems.length;
+    for (let i = 0; i < listLen; i++) {
+      const listItem = listItems[i];
+      listedItems += listItem;
+      if (i !== listLen - 1) {
+        listedItems += delimiter;
+      }
+    }
+    
+    const { backgroundSize, width, height, backgroundPositionX, backgroundPositionY} = job.bannerImage.image.imageStyle;
     jobCards.push(
-      <Card key={"job_card_" + jobCardInd++} elevation={contentCardElevation} className={classes.bodyCard} variant={cardVariant as any}>
-                <CardMedia
-                  className={classes.bodyCardMediaWWF}
-                  image={wwfImage}
-                />
-                <animated.div
-                style={{
-                  ...bodyTextColorAnimation as any
-                }}
-                >
-                  <Typography className={classes.bodyCardTitle}>
-                    {job.jobSummaryHeader}
-                  </Typography>
+      <Card key={"job_card_" + jobCardInd++} elevation={config.jobCardElevation} className={classes.bodyCard} variant={config.jobCardVariant as any}>
+        <CardMedia
+          className={makeStyles({
+            bodyCardMediaHIR: {
+              width,
+              height,
+              backgroundPositionY,
+              backgroundPositionX,
+              backgroundSize,
+            }
+          })().bodyCardMediaHIR}
+          image={require("./Assets/" + job.bannerImage.image.src)}
+        />
+        <animated.div
+        style={{
+          ...bodyTextColorAnimation as any
+        }}
+        >
+          <Typography className={classes.bodyCardTitle}>
+            {config.getJobDescription(job)}
+          </Typography>
 
-                  {jobBullets}
+          {jobBullets}
 
-                  <Typography
-                    className={classes.bodyCardTechStack}
-                  >
-                    <em>
-                      Tech Stack: JavaScript, TypeScript, Node.js, cocos2d-js, React, React Native
-                    </em>
-                  </Typography>
-                </animated.div>
-              </Card>
+          <Typography
+            className={classes.bodyCardTechStack}
+          >
+            {listedItems?.length > 0 && <em>
+              {listedItems}
+            </em>}
+          </Typography>
+        </animated.div>
+      </Card>
     )
   }
 
+  // create sidebar
+  const sidebar = (<animated.div
+    style={{
+      ...gradientAnimation as any
+    }}
+    className={classes.sidebarContainer}
+  >
+      <animated.div
+        className={classes.sidebarRoot}
+        style={{
+        ...sidebarTextColorAnimation as any
+        }}>
+        <Typography className={classes.nameHeader}>
+          {config.name}
+        </Typography>
+        <Avatar
+          src={require("./Assets/" + config.profileImage.image.src)}
+          classes={{
+            circle: !isTransitioning ? classes.circleBorder : classes.circleBorderHidden,
+          }}
+        />
+
+        <Typography className={classes.titleHeader}>
+          {config.title}
+        </Typography>
+        {
+          config.subtitle && <Typography className={classes.subtitleHeader}>
+          <em>
+            {config.subtitle}
+          </em>
+        </Typography>
+        }
+
+        {config.summaryIsQuote && <SvgIcon
+          className={classes.leftQuote}
+          component={rightQuote}
+          viewBox="0 0 100 100"
+        />}
+        
+        <Typography className={classes.quote}>
+        {config.summary}
+        </Typography>
+
+        {config.summaryIsQuote && <div
+        className={classes.quoteReverse}
+        >
+          <SvgIcon
+            className={classes.rightQuote}
+            component={rightQuote}
+            viewBox="0 0 100 100"
+          />
+        </div>}
+
+          <Typography className={classes.contactText}>
+            <PhoneIcon className={classes.contactIcon} />
+            {config.phone}
+          </Typography>
+
+          <Typography className={classes.contactText}>
+            <MailIcon className={classes.contactIcon} />
+            <a className={classes.noStyleAnchor} href={config.emailLink}>{config.email}</a>
+          </Typography>
+
+          <Typography className={classes.contactText}>
+            <LanguageIcon className={classes.contactIcon} />
+            <a className={classes.noStyleAnchor} href={config.web}>{config.web}</a>
+          </Typography>
+
+          <Typography className={classes.contactText}>
+            <LinkedInIcon className={classes.contactIcon} />
+            <a className={classes.noStyleAnchor} href={config.linkedInLink}>{config.linkedInLink}</a>
+          </Typography>
+
+          <Typography className={classes.contactText}>
+            <GitHubIcon className={classes.contactIcon} />
+            <a className={classes.noStyleAnchor} href={config.githubLink}>{config.githubLink}</a>
+          </Typography>
+
+          <Card elevation={0} className={classes.qrCard}>
+            <animated.div style={{...qrFillColorAnimation as any}}>
+                <SvgIcon
+                  className={classes.qrMedia}
+                  component={qrcode}
+                  viewBox="80 80 1050 1050"
+                />
+                <div ref={boundaryRef as any}/>
+            </animated.div>
+          </Card>
+      </animated.div>
+  </animated.div>);
+
+  // material UI theme, force font
+  const theme = createMuiTheme({
+    overrides: {
+      MuiTypography: {
+        root: {
+          fontFamily: 'Roboto',
+        }
+      }
+    }
+  });
+
+  // render
   return (
     <ThemeProvider theme={theme}>
       <animated.div
@@ -652,7 +654,7 @@ function App() {
 
           {(isMobile && iOS()) || isInvalid ? <Button
           variant="contained"
-          onClick={(e) => window.open('./pdfs/csweet_resume_2020.pdf') /* window.alert("Download generic PDF...")*/}
+          onClick={(e) => window.open('./pdfs/csweet_resume_2020.pdf')}
           >
             <PrinterIcon/>
           </Button> : 
@@ -676,20 +678,21 @@ function App() {
         </animated.div>
 
         {!isLoaded && <animated.div
-        style={{
-          display: 'flex',
-          flexDirection: 'row',
-          justifyContent: 'center',
-        }}
-        >
-          <CircularProgress
           style={{
-            marginTop: 20,
+            display: 'flex',
+            flexDirection: 'row',
+            justifyContent: 'center',
           }}
-          />
-        </animated.div>}
+          >
+            <CircularProgress
+            style={{
+              marginTop: 20,
+            }}
+            />
+          </animated.div>
+        }
+
         {
-          
             isLoaded && !validatedRender && isInvalid &&
             <div
               style={{
@@ -747,302 +750,37 @@ function App() {
           }}
         >
           <div
+          style={{
+            flexDirection: 'row-reverse',
+            top: isMobile ? -20 : -10,
+          }}
+          >
+            <Typography
             style={{
-              flexDirection: 'row-reverse',
-              top: isMobile ? -20 : -10,
+              fontSize: 18,
+              letterSpacing: staticLetterSpacing,
+              opacity: validatedRender ? 1 : 0,
             }}
             >
-              <Typography
-              style={{
-                fontSize: 18,
-                letterSpacing: staticLetterSpacing,
-                opacity: validatedRender ? 1 : 0,
-              }}
-              >
-                {currentAnimState.name}
-              </Typography>
-            </div>
+              {currentAnimState.name}
+            </Typography>
+          </div>
+          
           <Paper
             className={classes.paperRoot}
             elevation={10}
             ref={pdfComponentRef as any}
           >
-            <animated.div
-              style={{
-                ...gradientAnimation as any
-              }}
-              className={classes.sidebarContainer}
-            >
-                <animated.div
-                  className={classes.sidebarRoot}
-                  style={{
-                  ...sidebarTextColorAnimation as any
-                  }}>
-                  <Typography className={classes.nameHeader}>
-                    {config.name}
-                  </Typography>
-                  <Avatar
-                    src={meImage}
-                    classes={{
-                      circle: !isTransitioning ? classes.circleBorder : classes.circleBorderHidden
-                    }}
-                  />
-
-                  <Typography className={classes.titleHeader}>
-                    {config.title}
-                  </Typography>
-                  {
-                    config.subtitle && <Typography className={classes.subtitleHeader}>
-                    <em>
-                      {config.subtitle}
-                    </em>
-                  </Typography>
-                  }
-
-                  <SvgIcon
-                    className={classes.leftQuote}
-                    component={rightQuote}
-                    viewBox="0 0 100 100"
-                  />
-                  
-                  <Typography className={classes.quote}>
-                  {config.summary}
-                  </Typography>
-
-                  <div
-                  className={classes.quoteReverse}
-                  >
-                  <SvgIcon
-                    className={classes.rightQuote}
-                    component={rightQuote}
-                    viewBox="0 0 100 100"
-                  />
-                  </div>
-
-                    <Typography className={classes.contactText}>
-                      <PhoneIcon className={classes.contactIcon} />
-                      {config.phone}
-                    </Typography>
-
-                    <Typography className={classes.contactText}>
-                      <MailIcon className={classes.contactIcon} />
-                      <a className={classes.noStyleAnchor} href={config.emailLink}>{config.email}</a>
-                    </Typography>
-
-                    <Typography className={classes.contactText}>
-                      <LanguageIcon className={classes.contactIcon} />
-                      <a className={classes.noStyleAnchor} href={config.web}>{config.web}</a>
-                    </Typography>
-
-                    <Typography className={classes.contactText}>
-                      <LinkedInIcon className={classes.contactIcon} />
-                      <a className={classes.noStyleAnchor} href={config.linkedInLink}>{config.linkedInLink}</a>
-                    </Typography>
-
-                    <Typography className={classes.contactText}>
-                      <GitHubIcon className={classes.contactIcon} />
-                      <a className={classes.noStyleAnchor} href="http://www.github.com/cSweetMaj7">github.com/cSweetMaj7</a>
-                    </Typography>
-
-                    <Card elevation={0} className={classes.qrCard}>
-                      <animated.div style={{...qrFillColorAnimation as any}}>
-                          <SvgIcon
-                            className={classes.qrMedia}
-                            component={qrcode}
-                            viewBox="80 80 1050 1050"
-                          />
-                          <div ref={boundaryRef as any}/>
-                      </animated.div>
-                    </Card>
-                </animated.div>
-            </animated.div>
+            {!config.sidebarRight && sidebar}
 
             <animated.div
               className={classes.bodyRoot}
               style={{ ...bodyBackgroundColorAnimation as any}}
             >
-              {jobCards}
-
-              {/*
-              <Card elevation={contentCardElevation} className={classes.bodyCard} variant={cardVariant as any}>
-                <CardMedia
-                  className={classes.bodyCardMediaWWF}
-                  image={wwfImage}
-                />
-                <animated.div
-                style={{
-                  ...bodyTextColorAnimation as any
-                }}
-                >
-                  <Typography className={classes.bodyCardTitle}>
-                      Software Engineer II on {" "}
-                      Words With Friends at Zynga since{" "}
-                      2018
-                    </Typography>
-
-                    <Typography
-                      className={classes.bodyCardContentDense}
-                    >
-                      • Arcitected, developed, deployed, documented, evangelized, and personally owned {" "}
-                      <em>the</em> new live content pipeline for all WWF mobile SKUs. A host of technical
-                      improvements allow rich and targeted content to be created and deployed at breakneck
-                      speed without the aid of an engineer.
-                    </Typography>
-
-                    <Typography
-                      className={classes.bodyCardContentDense}
-                    >
-                      • Implemented numerous error-free game features and technical improvements for both the web and mobile application stacks.
-                      Successful in collaboration with a large team consisting of major disciplines including engineering,
-                      QA, production, design, marketing, project management, analytics and live content operations.
-                    </Typography>
-
-                    <Typography
-                      className={classes.bodyCardContentDense}
-                    >
-                      • Excelled as half of a two-man client team responsible for developing, deploying and supporting Words Live, a cash-prize
-                      live trivia game show hosted in the WWF mobile app. Responsible for creating and maintaining the modal dialog system. Designed
-                      a proven tool capable of running synchronized pre-recorded shows without any live control room support.
-                    </Typography>
-
-                    <Typography
-                      className={classes.bodyCardContentDense}
-                    >
-                      • Served as mentor to engineering interns and new-hires by taking a personal interest in their careers. Provided individual support with daily check-ins, ramp-up support and code reviews.
-                    </Typography>
-
-                    <Typography
-                      className={classes.bodyCardTechStack}
-                    >
-                      <em>
-                        Tech Stack: JavaScript, TypeScript, Node.js, cocos2d-js, React, React Native
-                      </em>
-                    </Typography>
-                </animated.div>
-              </Card>
-              
-              <Card elevation={contentCardElevation} className={classes.bodyCard} variant={cardVariant as any}>
-                <CardMedia
-                  className={classes.bodyCardMediaHIR}
-                  image={hirImage}
-                />
-
-                <animated.div
-                style={{
-                  ...bodyTextColorAnimation as any
-                }}
-                >
-                  <Typography className={classes.bodyCardTitle}>
-                    Software Engineer I on{" "}
-                    Hit It Rich! Slots at Zynga from{" "}
-                    2015 to 2018
-                  </Typography>
-
-                  <Typography
-                    className={classes.bodyCardContentDense}
-                  >
-                    • Personally responsible for implementing complex game cabinet animations, audio, and
-                    custom game logic for iconic franchises like Aerosmith, Ainsworth, Downton Abbey, Elvis,
-                      Elvira, Halloween, Happy Days, Lost in Space, Pee-wee Herman, Real Housewives, Slingo, 
-                      Sex and the City, Steve Harvey, Superman, Willy Wonka, The Wizard of Oz, and many more.
-                  </Typography>
-
-                  <Typography
-                    className={classes.bodyCardContentDense}
-                  >
-                    • Initially developed in the existing Flash tech stack, quickly ramping up on mobile
-                    development via the new Unity tech stack. Repeatedly and successfully delivered licensor
-                    feedback under tight deadlines on both platforms.
-                  </Typography>
-
-                  <Typography
-                    className={classes.bodyCardTechStack}
-                  >
-                    <em>
-                      Tech Stack: Flash Actionscript, C#, Unity 3D
-                    </em>
-                  </Typography>
-                </animated.div>
-              </Card>
-
-              <Card elevation={contentCardElevation} className={classes.bodyCard} variant={cardVariant as any}>
-                <CardMedia
-                  className={classes.bodyCardMediaFV2}
-                  image={fv2Image}
-                />
-
-                <animated.div
-                style={{
-                  ...bodyTextColorAnimation as any
-                }}
-                >
-                  <Typography className={classes.bodyCardTitle}>
-                    Jr. Software Engineer on FarmVille2 {" "}
-                    at Zynga from 2013 to 2015
-                  </Typography>
-
-                  <Typography
-                    className={classes.bodyCardContentLight}
-                  >
-                    • Created critical studio client tools used to integrate and publish new game content.
-                  </Typography>
-
-                  <Typography
-                    className={classes.bodyCardContentLight}
-                  >
-                    • Developed and implemented game features under the direction of engineering and design.
-                  </Typography>
-
-                  <Typography
-                    className={classes.bodyCardTechStack}
-                  >
-                    <em>
-                      Tech Stack: C#, .NET, PHP, Flash ActionScript
-                    </em>
-                  </Typography>
-                </animated.div>
-              </Card>
-
-              <Card elevation={contentCardElevation} className={classes.bodyCard} variant={cardVariant as any}>
-                <CardMedia
-                  className={classes.bodyCardMediaFTV}
-                  image={ftvImage}
-                />
-
-                <animated.div
-                style={{
-                  ...bodyTextColorAnimation as any
-                }}
-                >
-                  <Typography className={classes.bodyCardTitle}>
-                    Quality Engineer on FrontierVille {" "}
-                    at Zynga from 2011 to 2012
-                  </Typography>
-
-                  <Typography
-                    className={classes.bodyCardContentLight}
-                  >
-                    • Created game feature test plans and led testing progression.
-                  </Typography>
-
-                  <Typography
-                    className={classes.bodyCardContentLight}
-                  >
-                    • Created award-winning inventory tooling used across other Zynga games.
-                  </Typography>
-
-                  <Typography
-                    className={classes.bodyCardTechStack}
-                  >
-                    <em>
-                      Tech Stack: C#, .NET, PHP, Flash ActionScript
-                    </em>
-                  </Typography>
-                </animated.div>
-
-              </Card>*/}
-              
+              {jobCards}              
             </animated.div>
+
+            {config.sidebarRight && sidebar}
           </Paper>
         </animated.div>}
     </ThemeProvider>

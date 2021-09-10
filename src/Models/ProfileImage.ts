@@ -9,7 +9,7 @@ export class ProfileImage implements IProfileImage {
     public image!: Image;
     public borderWidth!: number;
 
-    Job(data: IProfileImage) {
+    ProfileImage(data: IProfileImage) {
         Object.assign(this, data);
     }
 

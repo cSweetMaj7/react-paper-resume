@@ -1,5 +1,9 @@
 import { BannerImage } from "./BannerImage";
 
+interface Serializable<T> {
+    deserialize(input: Object): T;
+}
+
 interface IJob {
     title: string;
     team?: string;
@@ -13,7 +17,7 @@ interface IJob {
 import { JobBullet } from "./JobBullet";
 import { JobList } from "./JobList";
 
-export class Job implements IJob {
+export class Job implements Serializable<IJob> {
     public title!: string;
     public team!: string;
     public company!: string;
@@ -27,24 +31,9 @@ export class Job implements IJob {
         Object.assign(this, data);
     }
 
-    jobSummaryHeader = () => {
-        return "ASS";
-        // build an applicable job summary header from provided data
-        let result = this.title;
-
-        if (this.team) {
-            result += " on " + this.team;
-        }
-
-        result += " at " + this.company;
-
-        if (!this.end) {
-            result += " since " + this.start;
-        } else {
-            result += " from " + this.start + " to " + this.end;
-        }
-
-        return result;
+    deserialize(data: any) {
+        Object.assign(this, data);
+        return this;
     }
 
 }

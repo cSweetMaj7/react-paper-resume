@@ -10,7 +10,7 @@ export class JobList implements IJobList {
     public delimiter!: string;
     public listItems!: string[];
 
-    Job(data: IJobList) {
+    JobList(data: IJobList) {
         Object.assign(this, data);
     }
 

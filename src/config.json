@@ -1,0 +1,293 @@
+{
+    "name": "Charles Sweet",
+    "title": "Software Engineer",
+    "subtitle": "Specializing in Game, Mobile, Web, Front End, Content Pipeline, and Tooling Development",
+    "summary": "I don't just write software; I strive to create seamless, performant and memorable applications for every type of end user. From implementing the next big game feature on a large team, to prototyping novel ideas in cutting edge tech stacks, to creating tools that make my teammate's jobs easier. I cherish each new opportunity to make an impact and leave any project I touch in better condition than I found it. I am excited to help bring my team's efforts to their full potential!",
+    "summaryIsQuote": true,
+    "sidebarRight": true,
+    "phone": "925.459.4874",
+    "email": "contact@charlessweet.me",
+    "linkedInUsername": "charles-sweet",
+    "web": "charlessweet.me",
+    "githubUsername": "cSweetMaj7",
+    "profileImage": {
+      "image": {
+        "src": "me_3.jpg"
+      }
+    },
+    "jobs": [
+      {
+        "title": "Software Engineer II",
+        "bannerImage": {
+          "image": {
+            "src": "wwf.png",
+            "imageStyle": {
+              "height": 55,
+              "backgroundPositionY": -39,
+              "backgroundSize": "100%"
+            }
+          }
+        },
+        "team": "Words With Friends",
+        "company": "Zynga",
+        "start": "2018",
+        "jobBullets": [
+          {
+            "bulletChar": "⦿",
+            "text": "Arcitected, developed, deployed, documented, evangelized, and personally owned an extensive live content pipeline used for all WWF mobile SKUs. A host of technical improvements allow rich and targeted content to be created and deployed at breakneck speed without the aid of an engineer. Less than one year after being introduced it has earn over $20m in direct profit."
+          },
+          {
+            "bulletChar": "⦿",
+            "text": "As part of a personalized video promotion I was responsible for not only connecting users to their personalized videos, but also for ensuring that they were able to socially share the video after viewing it. I leveraged web and mobile native APIs to deliver the perfect user experience."
+          },
+          {
+            "bulletChar": "⦿",
+            "text": "Excelled as half of a two-man client team responsible for developing, deploying, and supporting Words Live, a cash-prize live trivia game show hosted in the WWF mobile app. Responsible for creating and maintaining the modal dialog system. Designed a proven tool capable of running synchronized pre-recorded shows without any live control room support."
+          },
+          {
+            "bulletChar": "⦿",
+            "text": "Mentored engineering interns and new-hires. Took a personal interest in their careers and provided individual support with daily check-ins, ramp-up support, and code reviews."
+          }
+        ],
+        "jobList": {
+          "name": "Tech Stack",
+          "delimiter": ", ",
+          "listItems": [
+            "JavaScript",
+            "TypeScript",
+            "Node.js",
+            "cocos2d-js",
+            "React",
+            "React Native"
+          ]
+        },
+        "end": "2021"
+      },
+      {
+        "title": "Software Engineer I",
+        "bannerImage": {
+          "image": {
+            "src": "hir.jpg",
+            "imageStyle": {
+              "height": 55,
+              "backgroundPositionY": -102,
+              "backgroundSize": "100% 200px"
+            }
+          }
+        },
+        "team": "Hit It Rich! Slots",
+        "company": "Zynga",
+        "start": "2015",
+        "end": "2018",
+        "jobBullets": [
+          {
+            "bulletChar": "⦿",
+            "text": "Personally responsible for implementing complex game cabinet animations, audio, and custom game logic for iconic franchises like Aerosmith, Ainsworth, Downton Abbey, Elvis, Elvira, Halloween, Happy Days, Lost in Space, Pee-wee Herman, Real Housewives, Slingo, Sex and the City, Steve Harvey, Superman, Willy Wonka, The Wizard of Oz, and many more."
+          },
+          {
+            "bulletChar": "⦿",
+            "text": "Initially developed in the existing Flash tech stack, quickly ramping up on mobile development via the new Unity tech stack. Repeatedly and successfully delivered licensor feedback under tight deadlines on both platforms."
+          }
+        ],
+        "jobList": {
+          "name": "Tech Stack",
+          "delimiter": ", ",
+          "listItems": [
+            "Flash Actionscript",
+            "C#",
+            "Unity 3D"
+          ]
+        }
+      },
+      {
+        "title": "Jr. Software Engineer",
+        "bannerImage": {
+          "image": {
+            "src": "fv2.jpg",
+            "imageStyle": {
+              "height": 55,
+              "backgroundPositionY": -17,
+              "backgroundSize": "100% 295px"
+            }
+          }
+        },
+        "team": "FarmVille2",
+        "company": "Zynga",
+        "start": "2013",
+        "end": "2015",
+        "jobBullets": [
+          {
+            "bulletChar": "⦿",
+            "text": "Created critical studio client tools used to integrate and publish new game content."
+          },
+          {
+            "bulletChar": "⦿",
+            "text": "Developed and implemented game features under the direction of engineering and design."
+          },
+          {
+            "bulletChar": "⦿",
+            "text": "Began the enduring process of Agile development on small pods executing sprints."
+          }
+        ],
+        "jobList": {
+          "name": "Tech Stack",
+          "delimiter": ", ",
+          "listItems": [
+            "C#",
+            ".NET",
+            "PHP",
+            "Flash Actionscript"
+          ]
+        }
+      },
+      {
+        "title": "Quality Engineer",
+        "bannerImage": {
+          "image": {
+            "src": "ftv.jpg",
+            "imageStyle": {
+              "height": 55,
+              "backgroundPositionY": -13,
+              "backgroundSize": "110%"
+            }
+          }
+        },
+        "team": "FrontierVille",
+        "company": "Zynga",
+        "start": "2011",
+        "end": "2012",
+        "jobBullets": [
+          {
+            "bulletChar": "⦿",
+            "text": "Created game feature test plans and led testing progression."
+          },
+          {
+            "bulletChar": "⦿",
+            "text": "Created award-winning inventory tooling used across other Zynga games."
+          }
+        ],
+        "jobList": {
+          "name": "Tech Stack",
+          "delimiter": ", ",
+          "listItems": [
+            "C#",
+            ".NET",
+            "PHP",
+            "Flash Actionscript"
+          ]
+        }
+      }
+    ],
+    "themes": [
+      {
+        "name": "🖨️Boring",
+        "viewportBackgroundColor": "#ffffff",
+        "sidebarTopColor": "#ffffff",
+        "sidebarBottomColor": "#ffffff",
+        "sidebarTextColor": "#000000",
+        "bodyBackgroundColor": "#ffffff",
+        "bodyTextColor": "#000000"
+      },
+      {
+        "name": " ⏪🆕Updated 9/2021🆕⏩",
+        "viewportBackgroundColor": "#e1e3dd",
+        "sidebarTopColor": "rgb(100,173,255)",
+        "sidebarBottomColor": "rgb(70,48,255)",
+        "sidebarTextColor": "#ffffff",
+        "bodyBackgroundColor": "#f0ffff",
+        "bodyTextColor": "#000000"
+      },
+      {
+        "name": "🎃Pumpkin Spice",
+        "viewportBackgroundColor": "#f6b047",
+        "sidebarTopColor": "#98450e",
+        "sidebarBottomColor": "#a27b2c",
+        "sidebarTextColor": "#ffffff",
+        "bodyBackgroundColor": "#dfc972",
+        "bodyTextColor": "#853200"
+      },
+      {
+        "name": "👻Spooky",
+        "viewportBackgroundColor": "#696969",
+        "sidebarTopColor": "#d15400",
+        "sidebarBottomColor": "#595959",
+        "sidebarTextColor": "#ffffff",
+        "bodyBackgroundColor": "#774596",
+        "bodyTextColor": "#ffffff"
+      },
+      {
+        "name": "🎄Festive",
+        "viewportBackgroundColor": "#87b699",
+        "sidebarTopColor": "#e80000",
+        "sidebarBottomColor": "#570000",
+        "sidebarTextColor": "#ffed9f",
+        "bodyBackgroundColor": "#3a6b2c",
+        "bodyTextColor": "#ffed9f"
+      },
+      {
+        "name": "☃️Icy",
+        "viewportBackgroundColor": "#d6fffb",
+        "sidebarTopColor": "#e3e3ff",
+        "sidebarBottomColor": "#b3e4f4",
+        "sidebarTextColor": "#020c36",
+        "bodyBackgroundColor": "#b3e4f4",
+        "bodyTextColor": "#240845"
+      },
+      {
+        "name": "🍀Luck o' the Irish",
+        "viewportBackgroundColor": "#cce898",
+        "sidebarTopColor": "#09cf09",
+        "sidebarBottomColor": "#025e25",
+        "sidebarTextColor": "#cce898",
+        "bodyBackgroundColor": "#d4edd7",
+        "bodyTextColor": "#025e25"
+      },
+      {
+        "name": "🐰Easter-Vision",
+        "viewportBackgroundColor": "#88f59f",
+        "sidebarTopColor": "#ea9ef9",
+        "sidebarBottomColor": "#8ff0e4",
+        "sidebarTextColor": "#ff6564",
+        "bodyBackgroundColor": "#f6f1c3",
+        "bodyTextColor": "#ff6564"
+      },
+      {
+        "name": "🎆Vote!",
+        "viewportBackgroundColor": "#dbf2fa",
+        "sidebarTopColor": "#ef3f3f",
+        "sidebarBottomColor": "#0057ae",
+        "sidebarTextColor": "#ffffff",
+        "bodyBackgroundColor": "#dceef7",
+        "bodyTextColor": "#010553"
+      },
+      {
+        "name": "🌈Roy G. Biv",
+        "viewportBackgroundColor": "#db58b0",
+        "sidebarTopColor": "#fd4205",
+        "sidebarBottomColor": "#66c908",
+        "sidebarTextColor": "#0903b7",
+        "bodyBackgroundColor": "#750cc5",
+        "bodyTextColor": "#f9dd2a"
+      },
+      {
+        "name": "🌞California Dreamin'",
+        "viewportBackgroundColor": "#c96826",
+        "sidebarTopColor": "#fffd6b",
+        "sidebarBottomColor": "#f20014",
+        "sidebarTextColor": "#000000",
+        "bodyBackgroundColor": "#d0c6af",
+        "bodyTextColor": "#000000"
+      },
+      {
+        "name": "🎀You lack pink!",
+        "viewportBackgroundColor": "#6a61bc",
+        "sidebarTopColor": "#8ecfc8",
+        "sidebarBottomColor": "#f1bdc2",
+        "sidebarTextColor": "#000000",
+        "bodyBackgroundColor": "#f1bdc2",
+        "bodyTextColor": "#000000"
+      }
+    ],
+    "jobCardElevation": 2,
+    "jobCardVariant": "elevation"
+  }

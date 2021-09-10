@@ -17,7 +17,7 @@ export class Theme implements ITheme {
     public bodyBackgroundColor!: string;
     public bodyTextColor!: string;
 
-    Job(data: ITheme) {
+    Theme(data: ITheme) {
         Object.assign(this, data);
     }
 

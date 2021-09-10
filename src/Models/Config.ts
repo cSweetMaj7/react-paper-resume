@@ -21,6 +21,8 @@ interface IConfig {
     qrSrc?: string;
     jobs?: Job[];
     themes?: Theme[];
+    jobCardElevation: number;
+    jobCardVariant: string;
 }
 
 export class Config implements Serializable<IConfig> {
@@ -30,6 +32,7 @@ export class Config implements Serializable<IConfig> {
     public subtitle!: string;
     public summary!: string;
     public summaryIsQuote!: boolean;
+    public sidebarRight!: boolean;
     public phone!: string;
     public email!: string;
     public linkedInUsername!: string;
@@ -38,6 +41,8 @@ export class Config implements Serializable<IConfig> {
     public qrSrc!: string;
     public jobs!: Job[];
     public themes!: Theme[];
+    public jobCardElevation!: number;
+    public jobCardVariant!: string;
 
     get emailLink() {
         return "mailto:" + this.email;
@@ -49,6 +54,24 @@ export class Config implements Serializable<IConfig> {
 
     get linkedInLink() {
         return "linkedin.com/in/" + this.linkedInUsername;
+    }
+
+    public getJobDescription = (job: Job) => {
+        let result = job.title;
+        const { team, company, end, start } = job;
+        if (team) {
+            result += " on " + team;
+        }
+
+        result += " at " + company;
+
+        if (!end) {
+            result += " since " + start;
+        } else {
+            result += " from " + start + " to " + end;
+        }
+
+        return result;
     }
 
     deserialize(data: any) {

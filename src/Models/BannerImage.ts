@@ -7,7 +7,7 @@ interface IBannerImage {
 export class BannerImage implements IBannerImage {
     public image!: Image;
 
-    Job(data: IBannerImage) {
+    BannerImage(data: IBannerImage) {
         Object.assign(this, data);
     }
 
