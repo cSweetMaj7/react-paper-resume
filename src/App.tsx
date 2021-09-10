@@ -33,6 +33,21 @@ import { ReactComponent as rightQuote } from "./Icons/right-quotation.svg";
 import jsonConfig from "./config.json";
 
 function App() {
+  // up front
+  const iOS = () => {
+    return [
+      'iPad Simulator',
+      'iPhone Simulator',
+      'iPod Simulator',
+      'iPad',
+      'iPhone',
+      'iPod'
+    ].includes(navigator.platform)
+    // iPad on iOS 13 detection
+    || (navigator.userAgent.includes("Mac") && "ontouchend" in document)
+  }
+  // protect android mobile from perspective that does not play nice with Paper/Spring
+  const perspective = isMobile && !iOS() ? '' : 'perspective(7000px) ';
   // hooks
   const config = new Config().deserialize(jsonConfig);
   const startConfig = config.themes[1];
@@ -47,7 +62,7 @@ function App() {
   const [currentScale, setCurrentScale] = useState(1);
   const [scaledHorizontalOffset, setScaledHorizontalOffset] = useState(0);
   const [scaledVerticalOffset, setScaledVerticalOffset] = useState(0);
-  const [currentPaperRotationStyle, setCurrentPaperRotationStyle] = useState(`perspective(2000px) rotateY(0deg) scale(${currentScale})`);
+  const [currentPaperRotationStyle, setCurrentPaperRotationStyle] = useState(perspective + `rotateY(0deg) scale(${currentScale})`);
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
   const [validatedRender, setValidatedRender] = useState(false);
@@ -323,19 +338,6 @@ function App() {
     setIsInvalid(true);
   }
 
-  const iOS = () => {
-    return [
-      'iPad Simulator',
-      'iPhone Simulator',
-      'iPod Simulator',
-      'iPad',
-      'iPhone',
-      'iPod'
-    ].includes(navigator.platform)
-    // iPad on iOS 13 detection
-    || (navigator.userAgent.includes("Mac") && "ontouchend" in document)
-  }
-
   // load and resize effects
   useEffect(() => {
     const scale = () => {
@@ -374,7 +376,7 @@ function App() {
 
   // animation methods
   function SpinPaperAnimation() {
-    const toPaperRotationStyle = `perspective(2000px) rotateY(${paperRotationDegrees}deg) scale(${currentScale})`;
+    const toPaperRotationStyle = perspective + `rotateY(${paperRotationDegrees}deg) scale(${currentScale})`;
     return useSpring({
       from: {
         transform: currentPaperRotationStyle
