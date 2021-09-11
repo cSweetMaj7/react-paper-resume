@@ -664,7 +664,7 @@ function App() {
 
           {(isMobile && iOS()) || isInvalid ? <Button
           variant="contained"
-          onClick={(e) => window.open('./pdfs/csweet_resume_2020.pdf')}
+          onClick={(e) => window.open('./pdfs/resume.pdf')}
           >
             <PrinterIcon/>
           </Button> : 
