@@ -1,3 +1,6 @@
+import { IOptions } from "tsparticles";
+import { IAnimatableColor } from "tsparticles/Options/Interfaces/IAnimatableColor";
+
 interface ITheme {
     name: string,
     viewportBackgroundColor: string,
@@ -5,7 +8,8 @@ interface ITheme {
     sidebarBottomColor: string,
     sidebarTextColor: string,
     bodyBackgroundColor: string,
-    bodyTextColor: string,
+    bodyTextColor: IAnimatableColor,
+    particleConfig: IOptions,
 }
 
 export class Theme implements ITheme {
@@ -15,7 +19,8 @@ export class Theme implements ITheme {
     public sidebarBottomColor!: string;
     public sidebarTextColor!: string;
     public bodyBackgroundColor!: string;
-    public bodyTextColor!: string;
+    public bodyTextColor!: IAnimatableColor;
+    public particleConfig!: IOptions;
 
     Theme(data: ITheme) {
         Object.assign(this, data);

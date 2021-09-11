@@ -31,6 +31,7 @@ import { ReactComponent as qrcode } from "./Icons/qr-code.svg";
 // @ts-ignore
 import { ReactComponent as rightQuote } from "./Icons/right-quotation.svg";
 import jsonConfig from "./config.json";
+import Particles from "react-particles-js";
 
 function App() {
   // up front
@@ -636,6 +637,13 @@ function App() {
       }}
       className={classes.root}>
       </animated.div>
+
+      {isLoaded && !isTransitioning && currentAnimState.particleConfig &&
+        <Particles
+        className={classes.root}
+        params={currentAnimState.particleConfig} />
+      }
+    
         <div style={{ paddingTop: 30 }} />
         <animated.div
         style={{
@@ -764,7 +772,7 @@ function App() {
               opacity: validatedRender ? 1 : 0,
             }}
             >
-              {currentAnimState.name}
+              {currentAnimState.name} 
             </Typography>
           </div>
           

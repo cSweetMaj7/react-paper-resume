@@ -189,22 +189,118 @@
         "bodyTextColor": "#000000"
       },
       {
-        "name": " ⏪🆕Updated 9/2021🆕⏩",
-        "viewportBackgroundColor": "#e1e3dd",
+        "name": "⏪🆕Updated 9/2021🆕⏩",
+        "viewportBackgroundColor": "#364961",
         "sidebarTopColor": "rgb(100,173,255)",
         "sidebarBottomColor": "rgb(70,48,255)",
         "sidebarTextColor": "#ffffff",
         "bodyBackgroundColor": "#f0ffff",
-        "bodyTextColor": "#000000"
+        "bodyTextColor": "#000000",
+        "particleConfig": {
+          "particles": {
+              "number": {
+                  "value": 60,
+                  "density": {
+                      "enable": true,
+                      "value_area": 2000
+                  }
+              },
+              "line_linked": {
+                  "enable": true,
+                  "opacity": 0.02
+              },
+              "move": {
+                  "direction": "right",
+                  "speed": 0.1
+              },
+              "size": {
+                  "value": 4,
+                  "random": true
+              },
+              "opacity": {
+                  "anim": {
+                      "enable": true,
+                      "speed": 1,
+                      "opacity_min": 0.05
+                  }
+              },
+              "color": "#fffb00"
+          },
+          "interactivity": {
+              "events": {
+                  "onclick": {
+                      "enable": true,
+                      "mode": "push"
+                  }
+              },
+              "modes": {
+                  "push": {
+                      "particles_nb": 1
+                  }
+              }
+          },
+          "retina_detect": true
+      }
       },
       {
         "name": "🎃Pumpkin Spice",
-        "viewportBackgroundColor": "#f6b047",
+        "viewportBackgroundColor": "#9c6411",
         "sidebarTopColor": "#98450e",
         "sidebarBottomColor": "#a27b2c",
         "sidebarTextColor": "#ffffff",
         "bodyBackgroundColor": "#dfc972",
-        "bodyTextColor": "#853200"
+        "bodyTextColor": "#853200",
+        "particleConfig": {
+          "particles": {
+              "number": {
+                  "value": 200,
+                  "density": {
+                      "enable": true
+                  }
+              },
+              "size": {
+                  "value": 3,
+                  "random": true,
+                  "anim": {
+                      "speed": 4,
+                      "size_min": 0.3
+                  }
+              },
+              "line_linked": {
+                  "enable": false
+              },
+              "move": {
+                  "random": true,
+                  "speed": 1,
+                  "direction": "top",
+                  "out_mode": "out"
+              }
+          },
+          "interactivity": {
+              "events": {
+                  "onhover": {
+                      "enable": true,
+                      "mode": "bubble"
+                  },
+                  "onclick": {
+                      "enable": true,
+                      "mode": "repulse"
+                  }
+              },
+              "modes": {
+                  "bubble": {
+                      "distance": 250,
+                      "duration": 2,
+                      "size": 0,
+                      "opacity": 0
+                  },
+                  "repulse": {
+                      "distance": 400,
+                      "duration": 4
+                  }
+              }
+          }
+        }
       },
       {
         "name": "👻Spooky",
@@ -213,34 +309,130 @@
         "sidebarBottomColor": "#595959",
         "sidebarTextColor": "#ffffff",
         "bodyBackgroundColor": "#774596",
-        "bodyTextColor": "#ffffff"
+        "bodyTextColor": "#ffffff",
+        "particleConfig": {
+          "particles": {
+              "number": {
+                  "value": 50,
+                  "density": {
+                      "enable": true
+                  }
+              },
+              "size": {
+                  "value": 50
+              },
+              "shape": {
+                "type": ["image"],
+                "image": [
+                  {
+                    "src": "https://www.freepnglogos.com/uploads/bat-png/bat-png-transparent-images-png-only-2.png"
+                  }
+                ]
+              },
+              "line_linked": {
+                  "enable": false
+              },
+              "move": {
+                  "random": true,
+                  "speed": 50,
+                  "direction": "top",
+                  "out_mode": "out"
+              }
+          }
+        }
       },
       {
         "name": "🎄Festive",
-        "viewportBackgroundColor": "#87b699",
+        "viewportBackgroundColor": "#2f5187",
         "sidebarTopColor": "#e80000",
         "sidebarBottomColor": "#570000",
         "sidebarTextColor": "#ffed9f",
         "bodyBackgroundColor": "#3a6b2c",
-        "bodyTextColor": "#ffed9f"
+        "bodyTextColor": "#ffed9f",
+        "particleConfig": {
+          "particles": {
+            "number": {
+                "value": 160,
+                "density": {
+                    "enable": false
+                }
+            },
+            "size": {
+                "value": 10,
+                "random": true
+            },
+            "move": {
+                "direction": "bottom",
+                "out_mode": "out"
+            },
+            "line_linked": {
+                "enable": false
+            }
+        }
+        }
       },
       {
         "name": "☃️Icy",
-        "viewportBackgroundColor": "#d6fffb",
+        "viewportBackgroundColor": "#8dc9c4",
         "sidebarTopColor": "#e3e3ff",
         "sidebarBottomColor": "#b3e4f4",
         "sidebarTextColor": "#020c36",
         "bodyBackgroundColor": "#b3e4f4",
-        "bodyTextColor": "#240845"
+        "bodyTextColor": "#240845",
+        "particleConfig": {
+          "particles": {
+            "number": {
+                "value": 160,
+                "density": {
+                    "enable": false
+                }
+            },
+            "size": {
+                "value": 10,
+                "random": true
+            },
+            "move": {
+                "direction": "bottom",
+                "out_mode": "out"
+            },
+            "line_linked": {
+                "enable": false
+            }
+        }
+        }
       },
       {
-        "name": "🍀Luck o' the Irish",
-        "viewportBackgroundColor": "#cce898",
+        "name": "⛳ Hole In One",
+        "viewportBackgroundColor": "#7db020",
         "sidebarTopColor": "#09cf09",
         "sidebarBottomColor": "#025e25",
         "sidebarTextColor": "#cce898",
         "bodyBackgroundColor": "#d4edd7",
-        "bodyTextColor": "#025e25"
+        "bodyTextColor": "#025e25",
+        "particleConfig": {
+          "particles": {
+              "number": {
+                  "value": 50,
+                  "density": {
+                      "enable": true
+                  }
+              },
+              "size": {
+                  "value": 10
+              },
+              "shape": {
+                "type": ["image"],
+                "image": [
+                  {
+                    "src": "https://freepngimg.com/thumb/golf_ball/3-2-golf-ball-picture-thumb.png"
+                  }
+                ]
+              },
+              "line_linked": {
+                  "enable": false
+              }
+          }
+        }
       },
       {
         "name": "🐰Easter-Vision",
