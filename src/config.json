@@ -325,7 +325,7 @@
                 "type": ["image"],
                 "image": [
                   {
-                    "src": "https://www.freepnglogos.com/uploads/bat-png/bat-png-transparent-images-png-only-2.png"
+                    "src": "Assets/bat.png"
                   }
                 ]
               },
@@ -424,7 +424,7 @@
                 "type": ["image"],
                 "image": [
                   {
-                    "src": "https://freepngimg.com/thumb/golf_ball/3-2-golf-ball-picture-thumb.png"
+                    "src": "Assets/golf_ball.png"
                   }
                 ]
               },

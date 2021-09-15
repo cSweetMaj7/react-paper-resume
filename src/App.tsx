@@ -628,9 +628,75 @@ function App() {
     }
   });
 
+  // Particle images must be initialized to an image element in order to be
+  // imported via node -- once imported, local assets use a hashed filename.
+  // Initialized image refs in the object must be updated to point to the
+  // runtime node image path
+
+  // this traversal is how I really want to do this, but there are numerous
+  // typing errors with react-particle-js and its dependenies, so it's not working :(
+  /*const renderElements = [];
+  for (let h = 0; h < config.themes.length; h++) {
+      if (config?.themes?.[h]?.particleConfig?.particles?.shape?.image) {
+        const importString = (config.themes[h].particleConfig.particles.shape.image as any)[0].src;
+        console.warn("Import String: " + importString)
+        const importedImage = require(importString);
+        renderElements.push(<img src={importedImage} style={{
+          display: "none"
+        }} />);
+        // set the source in the object
+        config.themes[h].particleConfig.particles.shape.image = [
+          {
+            src: importedImage,
+            replace_color: false,
+            replaceColor: false,
+            width: 100,
+            height: 100,
+          }
+        ];
+      }
+  }*/
+
+  // this approach is not ideal as the specific image name and theme index
+  // are hardcoded, but it gets the job done for now...
+
+  const particleImageBat = require("./Assets/bat.png");
+  const particleImageGolfBall = require("./Assets/golf_ball.png");
+  const renderElements = [
+  <img alt="" src={particleImageBat} key={"particle_bat"} style={{
+    display: "none"
+  }} />,
+  <img alt="" src={particleImageGolfBall} key={"particle_golf"} style={{
+    display: "none"
+  }} />
+  ];
+  
+  const batThemeIndex = 3;
+  const golfThemeIndex = 6;
+  const commonParticle = {
+    replace_color: false,
+    replaceColor: false,
+    width: 0,
+    height: 0,
+  }
+  // replace with node ref in corresponding objects
+  config.themes[batThemeIndex].particleConfig.particles.shape.image = [
+    {
+      src: particleImageBat,
+      ...commonParticle
+    }
+  ];
+  config.themes[golfThemeIndex].particleConfig.particles.shape.image = [
+    {
+      src: particleImageGolfBall,
+      ...commonParticle
+    }
+  ];
+
   // render
   return (
     <ThemeProvider theme={theme}>
+      {renderElements}
       <animated.div
       style={{
         ...viewportBackgroundColorAnimation as any
