@@ -660,9 +660,13 @@ function App() {
   // this approach is not ideal as the specific image name and theme index
   // are hardcoded, but it gets the job done for now...
 
+  const particleImageFish = require("./Assets/fish.png");
   const particleImageBat = require("./Assets/bat.png");
   const particleImageGolfBall = require("./Assets/golf_ball.png");
   const renderElements = [
+    <img alt="" src={particleImageFish} key={"particle_fish"} style={{
+      display: "none"
+    }} />,
   <img alt="" src={particleImageBat} key={"particle_bat"} style={{
     display: "none"
   }} />,
@@ -671,8 +675,9 @@ function App() {
   }} />
   ];
   
-  const batThemeIndex = 3;
-  const golfThemeIndex = 6;
+  const fishThemeIndex = 2;
+  const batThemeIndex = 4;
+  const golfThemeIndex = 7;
   const commonParticle = {
     replace_color: false,
     replaceColor: false,
@@ -680,6 +685,12 @@ function App() {
     height: 0,
   }
   // replace with node ref in corresponding objects
+  config.themes[fishThemeIndex].particleConfig.particles.shape.image = [
+    {
+      src: particleImageFish,
+      ...commonParticle
+    }
+  ];
   config.themes[batThemeIndex].particleConfig.particles.shape.image = [
     {
       src: particleImageBat,

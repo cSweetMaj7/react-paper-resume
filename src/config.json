@@ -34,7 +34,7 @@
         "jobBullets": [
           {
             "bulletChar": "⦿",
-            "text": "Arcitected, developed, deployed, documented, evangelized, and personally owned an extensive live content pipeline used for all WWF mobile SKUs. A host of technical improvements allow rich and targeted content to be created and deployed at breakneck speed without the aid of an engineer. Less than one year after being introduced it has earn over $20m in direct profit."
+            "text": "Arcitected, developed, deployed, documented, evangelized, and owned an extensive live content pipeline used for all WWF mobile SKUs. A host of technical improvements allow rich and targeted content to be created and deployed at breakneck speed without the aid of an engineer. Less than one year after being introduced it has earned over $20m in direct profit."
           },
           {
             "bulletChar": "⦿",
@@ -241,6 +241,39 @@
           },
           "retina_detect": true
       }
+      },
+      {
+        "name": "🐠 Humuhumunukunukuapua'a",
+        "viewportBackgroundColor": "#2aceeb",
+        "sidebarTopColor": "#34474E",
+        "sidebarBottomColor": "#4F9EA5",
+        "sidebarTextColor": "#cce898",
+        "bodyBackgroundColor": "#E2E7D3",
+        "bodyTextColor": "#96551D",
+        "particleConfig": {
+          "particles": {
+              "number": {
+                  "value": 20,
+                  "density": {
+                      "enable": true
+                  }
+              },
+              "size": {
+                  "value": 70
+              },
+              "shape": {
+                "type": ["image"],
+                "image": [
+                  {
+                    "src": "Assets/fish.png"
+                  }
+                ]
+              },
+              "line_linked": {
+                  "enable": false
+              }
+          }
+        }
       },
       {
         "name": "🎃Pumpkin Spice",
