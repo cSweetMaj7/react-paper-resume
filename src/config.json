@@ -163,12 +163,12 @@
           {
             "bulletChar": "⦿",
             "text": "World of Color is a Unity 3D project written in C# that partially simulates a popular real-world light and fountain show at Disney's California Adventure Park.",
-            "href": "https://github.com/cSweetMaj7/react-paper-resume"
+            "href": "https://github.com/cSweetMaj7/WorldOfColor"
           },
           {
             "bulletChar": "⦿",
             "text": "Kortermaster is a React Native application that leverages AWS and a personally sourced database to allow users to scan barcodes and manage their pantry's inventory and expirations.",
-            "href": "https://github.com/cSweetMaj7/react-paper-resume"
+            "href": "https://github.com/cSweetMaj7/kortermaster-react-trimmed"
           }
         ]
       }
