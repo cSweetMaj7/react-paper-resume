@@ -564,7 +564,7 @@ function App() {
 
           <Typography className={classes.contactText}>
             <PhoneIcon className={classes.contactIcon} />
-            {config.phone}
+            <a className={classes.noStyleAnchor} href={config.phoneLink}>{config.phone}</a>
           </Typography>
 
           <Typography className={classes.contactText}>
@@ -579,12 +579,12 @@ function App() {
 
           <Typography className={classes.contactText}>
             <LinkedInIcon className={classes.contactIcon} />
-            <a className={classes.noStyleAnchor} href={"https://www." + config.linkedInLink} target="_blank" rel="noopener noreferrer">{config.linkedInLink}</a>
+            <a className={classes.noStyleAnchor} href={"https://www." + config.linkedInLink} target="_blank" rel="noopener noreferrer">{config.linkedInUsername}</a>
           </Typography>
 
           <Typography className={classes.contactText}>
             <GitHubIcon className={classes.contactIcon} />
-            <a className={classes.noStyleAnchor} href={"https://www." + config.githubLink} target="_blank" rel="noopener noreferrer">{config.githubLink}</a>
+            <a className={classes.noStyleAnchor} href={"https://www." + config.githubLink} target="_blank" rel="noopener noreferrer">{config.githubUsername}</a>
           </Typography>
 
           <Card elevation={0} className={classes.qrCard}>

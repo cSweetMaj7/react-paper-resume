@@ -56,6 +56,10 @@ export class Config implements Serializable<IConfig> {
         return "linkedin.com/in/" + this.linkedInUsername;
     }
 
+    get phoneLink() {
+        return "tel:" + this.phone.replaceAll(".", "").replaceAll("-", "").replaceAll("(", "").replaceAll(")", "").replaceAll(" ","");
+    }
+
     public getJobDescription = (job: Job) => {
         // override if defined
         if (job.cardTitleOverride) {
