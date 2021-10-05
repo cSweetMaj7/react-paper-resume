@@ -2,7 +2,7 @@
     "name": "Charles Sweet",
     "title": "Software Engineer",
     "subtitle": "Specializing in Game, Mobile, Web, Front End, Content Pipeline, and Tooling Development",
-    "summary": "I don't just write software; I strive to create seamless, performant and memorable applications for every type of end user. From implementing the next big game feature on a large team, to prototyping novel ideas in cutting edge tech stacks, to creating tools that make my teammate's jobs easier. I cherish each new opportunity to make an impact and leave any project I touch in better condition than I found it. I am excited to help bring my team's efforts to their full potential!",
+    "summary": "I don't just write software; I strive to create seamless, performant, and memorable applications for every type of end user. From implementing the next big game feature on a large team, to prototyping novel ideas in cutting edge tech stacks, to creating tools that make my teammate's jobs easier. I cherish each new opportunity to make an impact and leave any project I touch in better condition than I found it. I am excited to help bring my team's efforts to their full potential!",
     "summaryIsQuote": true,
     "sidebarRight": true,
     "phone": "925.459.4874",
@@ -34,19 +34,19 @@
         "jobBullets": [
           {
             "bulletChar": "⦿",
-            "text": "Arcitected, developed, deployed, documented, evangelized, and owned an extensive live content pipeline used for all WWF mobile SKUs. A host of technical improvements allow rich and targeted content to be created and deployed at breakneck speed without the aid of an engineer. Less than one year after being introduced it has earned over $20m in direct profit."
+            "text": "Arcitected, developed, deployed, documented, evangelized, and owned extensive live content pipeline used for all WWF mobile SKUs. Many technical improvements allow rich and targeted content to be created and deployed at breakneck speed without engineering assistance. Less than one year after being introduced, over $20m earned."
           },
           {
             "bulletChar": "⦿",
-            "text": "As part of a personalized video promotion I was responsible for not only connecting users to their personalized videos, but also for ensuring that they were able to socially share the video after viewing it. I leveraged web and mobile native APIs to deliver the perfect user experience."
+            "text": "For personalized video promotion, responsible for connecting users to their personalized videos and ensuring ability to socially share the video after viewing it. Leveraged web and mobile native APIs to deliver perfectly tailored user experience."
           },
           {
             "bulletChar": "⦿",
-            "text": "Excelled as half of a two-man client team responsible for developing, deploying, and supporting Words Live, a cash-prize live trivia game show hosted in the WWF mobile app. Responsible for creating and maintaining the modal dialog system. Designed a proven tool capable of running synchronized pre-recorded shows without any live control room support."
+            "text": "Excelled as half of two-person client team responsible for developing, deploying, and supporting Words Live: a cash-prize live trivia game show hosted in the WWF mobile app. Responsible for creating and maintaining modal dialog system. Designed proven tool capable of running synchronized pre-recorded shows without live control room support."
           },
           {
             "bulletChar": "⦿",
-            "text": "Mentored engineering interns and new-hires. Took a personal interest in their careers and provided individual support with daily check-ins, ramp-up support, and code reviews."
+            "text": "Mentored engineering interns and new-hires. Took personal interest in their careers and provided individual support with daily check-ins, ramp-up support, and code reviews."
           }
         ],
         "jobList": {
@@ -86,7 +86,7 @@
           },
           {
             "bulletChar": "⦿",
-            "text": "Initially developed in the existing Flash tech stack, quickly ramping up on mobile development via the new Unity tech stack. Repeatedly and successfully delivered licensor feedback under tight deadlines on both platforms."
+            "text": "Initially developed with Flash tech stack, quickly ramping up on mobile development via Unity. Repeatedly delivered licensor feedback under tight deadlines on both platforms."
           }
         ],
         "jobList": {
@@ -127,7 +127,11 @@
           },
           {
             "bulletChar": "⦿",
-            "text": "Began the enduring process of Agile development on small pods executing sprints."
+            "text": "Began enduring process of Agile development on small pods while executing sprints."
+          },
+          {
+            "bulletChar": "⦿",
+            "text": "Recognized with various company and studio awards for impactful tooling development."
           }
         ],
         "jobList": {
@@ -157,17 +161,17 @@
         "jobBullets": [
           {
             "bulletChar": "⦿",
-            "text": "react-paper-resume is a React application that renders an interactive, data driven, paper-style resume with a high-quality presentation layer. This resume was rendered with it!",
+            "text": "react-paper-resume(2021) - React application that renders an interactive, data driven, paper-style resume with a high-quality presentation layer. This resume was rendered with it!",
             "href": "https://github.com/cSweetMaj7/react-paper-resume"
           },
           {
             "bulletChar": "⦿",
-            "text": "World of Color is a Unity 3D project written in C# that partially simulates a popular real-world light and fountain show at Disney's California Adventure Park.",
+            "text": "World of Color(2019) - Unity 3D project written in C# that partially simulates a popular real-world light and fountain show at Disney's California Adventure Park.",
             "href": "https://github.com/cSweetMaj7/WorldOfColor"
           },
           {
             "bulletChar": "⦿",
-            "text": "Kortermaster is a React Native application that leverages AWS and a personally sourced database to allow users to scan barcodes and manage their pantry's inventory and expirations.",
+            "text": "Kortermaster(2020) - React Native application that leverages AWS and a personally sourced database to allow users to scan barcodes and manage their pantry's inventory and expirations.",
             "href": "https://github.com/cSweetMaj7/kortermaster-react-trimmed"
           }
         ]

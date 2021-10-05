@@ -261,7 +261,6 @@ function App() {
       textAlign: "left",
       fontSize: 12,
       marginLeft: 10,
-      paddingBottom: 3,
       letterSpacing: staticLetterSpacing,
       WebkitTextSizeAdjust: '100%',
       textSizeAdjust: '100%',
