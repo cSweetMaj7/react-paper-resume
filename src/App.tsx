@@ -221,34 +221,14 @@ function App() {
     bodyCard: {
       width: "96%",
       marginLeft: "2%",
-      marginBottom: 5,
-      marginTop: 5,
+      marginBottom: 8,
+      marginTop: 8,
       backgroundColor: "rgba(255,255,255,0.2)",
-    },
-    bodyCardMediaWWF: {
-      height: 55,
-      backgroundSize: "100%",
-      backgroundPositionY: -39
-    },
-    bodyCardMediaHIR: {
-      height: 55,
-      backgroundPositionY: -102,
-      backgroundSize: "100% 200px",
-    },
-    bodyCardMediaFV2: {
-      height: 55,
-      backgroundPositionY: -17,
-      backgroundSize: "100% 295px",
-    },
-    bodyCardMediaFTV: {
-      height: 55,
-      backgroundPositionY: -13,
-      backgroundSize: "110%",
     },
     bodyCardTitle: {
       textAlign: "center",
       fontSize: 14,
-      margin: 10,
+      margin: 5,
       textDecoration: "underline",
       letterSpacing: staticLetterSpacing,
       WebkitTextSizeAdjust: '100%',
@@ -477,14 +457,17 @@ function App() {
         {jobBullet.bulletChar}{" "}{jobBullet.text}
       </Typography>)
     }
-    const { listItems, name, delimiter } = job.jobList;
-    let listedItems: string = name + ": ";
-    const listLen = listItems.length;
-    for (let i = 0; i < listLen; i++) {
-      const listItem = listItems[i];
-      listedItems += listItem;
-      if (i !== listLen - 1) {
-        listedItems += delimiter;
+    let listedItems = "";
+    if (job.jobList) {
+      const { listItems, name, delimiter } = job.jobList;
+      listedItems = name + ": ";
+      const listLen = listItems.length;
+      for (let i = 0; i < listLen; i++) {
+        const listItem = listItems[i];
+        listedItems += listItem;
+        if (i !== listLen - 1) {
+          listedItems += delimiter;
+        }
       }
     }
     
@@ -493,14 +476,14 @@ function App() {
       <Card key={"job_card_" + jobCardInd++} elevation={config.jobCardElevation} className={classes.bodyCard} variant={config.jobCardVariant as any}>
         <CardMedia
           className={makeStyles({
-            bodyCardMediaHIR: {
+            bodyCardMedia: {
               width,
-              height,
+              height: job.bannerHeight || height,
               backgroundPositionY,
               backgroundPositionX,
               backgroundSize,
             }
-          })().bodyCardMediaHIR}
+          })().bodyCardMedia}
           image={require("./Assets/" + job.bannerImage.image.src)}
         />
         <animated.div

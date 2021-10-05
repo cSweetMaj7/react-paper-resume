@@ -57,6 +57,10 @@ export class Config implements Serializable<IConfig> {
     }
 
     public getJobDescription = (job: Job) => {
+        // override if defined
+        if (job.cardTitleOverride) {
+            return job.cardTitleOverride;
+        }
         let result = job.title;
         const { team, company, end, start } = job;
         if (team) {

@@ -22,12 +22,12 @@
           "image": {
             "src": "wwf.png",
             "imageStyle": {
-              "height": 55,
-              "backgroundPositionY": -39,
+              "backgroundPositionY": -25,
               "backgroundSize": "100%"
             }
           }
         },
+        "bannerHeight": 42,
         "team": "Words With Friends",
         "company": "Zynga",
         "start": "2018",
@@ -69,12 +69,12 @@
           "image": {
             "src": "hir.jpg",
             "imageStyle": {
-              "height": 55,
-              "backgroundPositionY": -102,
-              "backgroundSize": "100% 200px"
+              "backgroundPositionY": -76,
+              "backgroundSize": "100% 150px"
             }
           }
         },
+        "bannerHeight": 42,
         "team": "Hit It Rich! Slots",
         "company": "Zynga",
         "start": "2015",
@@ -106,11 +106,12 @@
             "src": "fv2.jpg",
             "imageStyle": {
               "height": 55,
-              "backgroundPositionY": -17,
-              "backgroundSize": "100% 295px"
+              "backgroundPositionY": -12,
+              "backgroundSize": "100% 220px"
             }
           }
         },
+        "bannerHeight": 42,
         "team": "FarmVille2",
         "company": "Zynga",
         "start": "2013",
@@ -141,41 +142,32 @@
         }
       },
       {
-        "title": "Quality Engineer",
         "bannerImage": {
           "image": {
-            "src": "ftv.jpg",
+            "src": "woc.png",
             "imageStyle": {
               "height": 55,
-              "backgroundPositionY": -13,
-              "backgroundSize": "110%"
+              "backgroundPositionY": -20,
+              "backgroundSize": "100%"
             }
           }
         },
-        "team": "FrontierVille",
-        "company": "Zynga",
-        "start": "2011",
-        "end": "2012",
+        "bannerHeight": 42,
+        "cardTitleOverride": "Personal Projects",
         "jobBullets": [
           {
             "bulletChar": "⦿",
-            "text": "Created game feature test plans and led testing progression."
+            "text": "react-paper-resume is a React application that renders an interactive, data driven, paper-style resume with a high-quality presentation layer. This resume was rendered with it!"
           },
           {
             "bulletChar": "⦿",
-            "text": "Created award-winning inventory tooling used across other Zynga games."
+            "text": "World of Color is a Unity 3D project written in C# that partially simulates a popular real-world light and fountain show at Disney's California Adventure Park."
+          },
+          {
+            "bulletChar": "⦿",
+            "text": "Kortermaster is a React Native application that leverages AWS and a personally sourced database to allow users to scan barcodes and manage their pantry's inventory and expirations."
           }
-        ],
-        "jobList": {
-          "name": "Tech Stack",
-          "delimiter": ", ",
-          "listItems": [
-            "C#",
-            ".NET",
-            "PHP",
-            "Flash Actionscript"
-          ]
-        }
+        ]
       }
     ],
     "themes": [

@@ -6,11 +6,13 @@ interface Serializable<T> {
 
 interface IJob {
     title: string;
+    cardTitleOverride?: string;
     team?: string;
     company: string;
     start: number;
     end?: number;
     bannerImage: BannerImage;
+    bannerHeight?: number;
     jobBullets: JobBullet[];
     jobList?: JobList;
 }
@@ -19,11 +21,13 @@ import { JobList } from "./JobList";
 
 export class Job implements Serializable<IJob> {
     public title!: string;
+    public cardTitleOverride!: string; // fills in job description when not defined
     public team!: string;
     public company!: string;
     public start!: number;
     public end!: number;
     public bannerImage!: BannerImage;
+    public bannerHeight?: number;
     public jobBullets!: JobBullet[];
     public jobList!: JobList;
 
