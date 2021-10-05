@@ -450,12 +450,21 @@ function App() {
   for (let job of config.jobs) {
     const jobBullets: any[] = [];
     for (const jobBullet of job.jobBullets) {
-      jobBullets.push(<Typography
-        className={classes.bodyCardContentDense}
-        key={"job_bullet_" + jobCardInd + "_" + jobBulletInd++}
-      >
-        {jobBullet.bulletChar}{" "}{jobBullet.text}
-      </Typography>)
+      jobBullets.push(
+      
+        <Typography
+          className={classes.bodyCardContentDense}
+          key={"job_bullet_" + jobCardInd + "_" + jobBulletInd++}
+        >
+          <a style={{
+            textDecoration: "inherit",
+            color: "inherit",
+          }} href={jobBullet.href} target="_blank" rel="noopener noreferrer">
+            {jobBullet.bulletChar}{" "}{jobBullet.text}
+          </a>
+        </Typography>
+      
+      )
     }
     let listedItems = "";
     if (job.jobList) {
