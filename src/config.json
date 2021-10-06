@@ -22,7 +22,7 @@
           "image": {
             "src": "wwf.png",
             "imageStyle": {
-              "backgroundPositionY": -25,
+              "backgroundPositionY": -295,
               "backgroundSize": "100%"
             }
           }
@@ -69,8 +69,8 @@
           "image": {
             "src": "hir.jpg",
             "imageStyle": {
-              "backgroundPositionY": -76,
-              "backgroundSize": "100% 150px"
+              "backgroundPositionY": -130,
+              "backgroundSize": "100%"
             }
           }
         },
@@ -106,8 +106,8 @@
             "src": "fv2.jpg",
             "imageStyle": {
               "height": 55,
-              "backgroundPositionY": -12,
-              "backgroundSize": "100% 220px"
+              "backgroundPositionY": -200,
+              "backgroundSize": "100%"
             }
           }
         },
