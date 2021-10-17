@@ -34,7 +34,7 @@
         "jobBullets": [
           {
             "bulletChar": "⦿",
-            "text": "Arcitected, developed, deployed, documented, evangelized, and owned extensive live content pipeline used for all WWF mobile SKUs. Many technical improvements allow rich and targeted content to be created and deployed at breakneck speed without engineering assistance. Less than one year after being introduced, over $20m earned."
+            "text": "Architected, developed, deployed, documented, evangelized, and owned extensive live content pipeline used for all WWF mobile SKUs. Many technical improvements allow rich and targeted content to be created and deployed at breakneck speed without engineering assistance. Less than one year after being introduced, over $20m earned."
           },
           {
             "bulletChar": "⦿",
@@ -93,7 +93,7 @@
           "name": "Tech Stack",
           "delimiter": ", ",
           "listItems": [
-            "Flash Actionscript",
+            "Flash ActionScript",
             "C#",
             "Unity 3D"
           ]
@@ -141,7 +141,7 @@
             "C#",
             ".NET",
             "PHP",
-            "Flash Actionscript"
+            "Flash ActionScript"
           ]
         }
       },
