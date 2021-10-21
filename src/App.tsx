@@ -56,6 +56,7 @@ function App() {
   const [transitionAnimState, setTransitionAnimState] = useState(startConfig);
   const [currentConfigIndex, setCurrentConfigIndex] = useState(0);
   const [paperRotationDegrees, setPaperRotationDegrees] = useState(0);
+  const [rotations, setRotations] = useState(0);
   const [gradientStateA, setGradientStateA] = useState(`linear-gradient(0deg, ${startConfig.sidebarTopColor} 0%, ${startConfig.sidebarBottomColor} 100%)`);
   const [gradientStateB, setGradientStateB] = useState(`linear-gradient(0deg, ${startConfig.sidebarBottomColor} 0%, ${startConfig.sidebarTopColor} 100%)`);
   const [viewportWidth, setViewportWidth] = useState(window.innerWidth);
@@ -290,13 +291,15 @@ function App() {
 
   // helper methods
   const colorTransitionConfig: SpringConfig = {
-    duration: 3000
+    friction: 20,
+    tension: 120,
   };
   const paperTransitionConfig: SpringConfig = {
-    friction: 100,
+    friction: 20,
+    tension: 120,
   };
-  const gradientTransitionConfig: SpringConfig = {
-    duration: 3000
+  const sidebarGradientConfig: SpringConfig = {
+    duration: 1500,
   };
 
   const handlePrint = useReactToPrint({
@@ -336,7 +339,7 @@ function App() {
       setScaledHorizontalOffset(hDiff/2 * -1);
     }
     const tryScale = () => {
-      if (viewportWidth !== window.innerWidth || viewportHeight !== window.innerHeight) {
+      if (!iOS() && viewportWidth !== window.innerWidth || viewportHeight !== window.innerHeight) {
         scale();
       }
     }
@@ -344,7 +347,7 @@ function App() {
       tryScale();
     });
     window.addEventListener('load', () => {
-      scale();
+      tryScale();
       setTimeout(() => {
         setIsLoaded(true);
         window.scrollTo(0, 0);
@@ -356,7 +359,7 @@ function App() {
 
   // animation methods
   function SpinPaperAnimation() {
-    const toPaperRotationStyle = perspective + `rotateY(${paperRotationDegrees}deg) scale(${currentScale})`;
+    const toPaperRotationStyle = perspective + `rotateY(${paperRotationDegrees}deg) scaleX(${currentScale * (rotations % 2 === 0 ? 1 : -1)}) scaleY(${currentScale})`;
     return useSpring({
       from: {
         transform: currentPaperRotationStyle
@@ -373,11 +376,12 @@ function App() {
   };
 
   const advanceRotation = (left?: boolean) => {
-    setPaperRotationDegrees(left ? paperRotationDegrees - 360 : paperRotationDegrees + 360);
+    setPaperRotationDegrees(left ? paperRotationDegrees - 180 : paperRotationDegrees + 180);
   }
 
   // no params for next, (true) for previous
   function transitionTheme(previous?: boolean) {
+    setRotations(rotations + 1);
     setIsTransitioning(true);
     const lastIndex = config.themes.length - 1;
     let targetIndex = 0;
@@ -403,7 +407,7 @@ function App() {
       background: gradientStateB
     },
     loop: { reverse: true },
-    config: gradientTransitionConfig
+    config: sidebarGradientConfig
   });
 
   const viewportBackgroundColorAnimation = useSpring({
@@ -706,7 +710,7 @@ function App() {
       className={classes.root}>
       </animated.div>
 
-      {isLoaded && !isTransitioning && currentAnimState.particleConfig &&
+      {!iOS() && isLoaded && !isTransitioning && currentAnimState.particleConfig &&
         <Particles
         className={classes.root}
         params={currentAnimState.particleConfig} />
@@ -824,7 +828,7 @@ function App() {
         {<animated.div
           className={classes.paperContainer}
           style={{
-            ...SpinPaperAnimation()
+            ...SpinPaperAnimation(),
           }}
         >
           <div
